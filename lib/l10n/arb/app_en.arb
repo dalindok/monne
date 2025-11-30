@@ -1,7 +1,23 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+  "@@locale": "en",
+  "counterAppBarTitle": "Counter",
+  "@counterAppBarTitle": {
+    "description": "Text shown in the AppBar of the Counter Page"
+  },
+  "please_turn_on_permission": "Please turn on {permissionType} permission",
+  "@please_turn_on_permission": {
+    "placeholders": {
+      "permissionType": {
+        "description": "label permission type"
+      }
     }
+  },
+  "open_setting": "Open Settings",
+  "@open_setting": {
+    "description": "lable open settings"
+  },
+  "photo": "Photo",
+  "@photo": {},
+  "camera": "Camera",
+  "@camera": {}
 }

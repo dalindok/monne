@@ -1,0 +1,23 @@
+{
+  "@@locale": "km",
+  "counterAppBarTitle": "បញ្ជរ",
+  "@counterAppBarTitle": {
+    "description": "Texto mostrado en la AppBar de la página del contador"
+  },
+  "please_turn_on_permission": "សូមបើកការអនុញ្ញាត {permissionType}",
+  "@please_turn_on_permission": {
+    "placeholders": {
+      "permissionType": {
+        "description": "label permission type"
+      }
+    }
+  },
+  "open_setting": "បើកការកំណត់",
+  "@open_setting": {
+    "description": "lable open settings"
+  },
+  "photo": "រូបភាព",
+  "@photo": {},
+  "camera": "កាមេរ៉ា",
+  "@camera": {}
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:monee/core/routes/src/app_router.dart';
+import 'package:monee/core/routes/routes.dart';
 
 import 'package:monee/features/splash/splash.dart';
 
@@ -48,21 +48,23 @@ class _SplashViewState extends State<SplashView> {
   void init() {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        context.goNamed(Pages.app.name);
+        context.read<SplashCubit>().init();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SplashCubit, SplashState>(
-      builder: (context, state) {
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
-        );
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (context, state) {
+        if (state is SplashInitialized) {
+          // context.goNamed(state.initialPage.name);
+          context.goNamed(Pages.onboarding.name);
+        }
       },
+      child: const Scaffold(
+        body: Center(child: CircularProgressIndicator.adaptive()),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:monee/core/extensions/src/build_context_ext.dart';
 import 'package:monee/core/routes/src/not_found_screen.dart';
 import 'package:monee/features/dashboard/dashboard.dart';
+import 'package:monee/features/onboarding/onboarding.dart';
 import 'package:monee/features/record/record.dart';
 import 'package:monee/features/report/report.dart';
 import 'package:monee/features/setting/setting.dart';
@@ -68,6 +69,13 @@ class AppRouter {
         path: '/',
         pageBuilder: (context, state) {
           return SplashPage.page(key: state.pageKey);
+        },
+      ),
+      GoRoute(
+        name: Pages.onboarding.name,
+        path: '/onboarding',
+        pageBuilder: (context, state) {
+          return OnboardingPage.page(key: state.pageKey);
         },
       ),
       GoRoute(

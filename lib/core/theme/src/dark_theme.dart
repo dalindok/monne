@@ -25,7 +25,7 @@ final colorSchemeDarkExt = AppColorScheme(
   dark: AppColors.white,
   white: AppColors.black,
   primary: AppColors.primary,
-  secondary: AppColors.primary,
+  secondary: AppColors.secondary,
   tertiary: AppColors.tertiary,
   primaryText: AppColors.white,
   secondaryText: AppColors.secondaryTextLight,

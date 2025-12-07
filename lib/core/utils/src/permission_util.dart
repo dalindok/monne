@@ -112,8 +112,9 @@ class PermissionUtil {
         if (androidInfo.version.sdkInt <= 32) {
           permission = Permission.storage;
         }
-      } catch (e) {
+      } on Exception catch (e) {
         //Do nothing
+        debugPrint('Error getting android info: $e');
       }
     }
     var permissionStatus = await permission.status;

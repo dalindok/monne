@@ -8,6 +8,7 @@ environment:
   flutter: ^3.35.0
 
 dependencies:
+  animated_bottom_navigation_bar: ^1.4.0
   bloc: ^9.0.1
   cupertino_icons: ^1.0.8
   device_info_plus: ^12.2.0

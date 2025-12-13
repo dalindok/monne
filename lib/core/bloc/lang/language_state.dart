@@ -2,7 +2,7 @@ part of 'language_bloc.dart';
 
 class LanguageState extends Equatable {
   const LanguageState({
-    this.selectLanguage = const Locale('km'),
+    this.selectLanguage = const Locale('en'),
   });
 
   final Locale selectLanguage;

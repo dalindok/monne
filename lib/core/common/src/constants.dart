@@ -34,7 +34,7 @@ final ShapeBorder kCardShape = RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(10),
 );
 
-final BorderRadius kBorderRadius = BorderRadius.circular(10);
+final BorderRadius kBorderRadius = BorderRadius.circular(16);
 
 /// The standard shadow for containers
 const kCardShadow = [

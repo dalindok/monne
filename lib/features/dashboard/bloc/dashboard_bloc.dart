@@ -6,8 +6,6 @@ part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc() : super(const DashboardState()) {
-    on<DashboardEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<DashboardEvent>((event, emit) {});
   }
 }

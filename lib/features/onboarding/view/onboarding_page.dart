@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:monee/core/common/common.dart';
+import 'package:monee/core/common/common.dart' hide Icons;
 import 'package:monee/core/routes/routes.dart';
+import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/features/onboarding/view/onboarding_content.dart';
+import 'package:monee/widgets/widgets.dart';
 
 class OnboardingContent {
   OnboardingContent({
@@ -126,10 +128,21 @@ class _OnboardingViewState extends State<OnboardingView> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: _onNextPressed,
-                    child: Text(
-                      _currentPage == _contents.length - 1 ? 'Start' : 'Next',
+                  CustomButton(
+                    onPress: _onNextPressed,
+                    child: Row(
+                      spacing: Spacing.s,
+                      children: [
+                        Text(
+                          _currentPage == _contents.length - 1
+                              ? 'Start'
+                              : 'Next',
+                        ),
+                        if (_currentPage == _contents.length - 1)
+                          const Icon(Icons.check)
+                        else
+                          const Icon(Icons.arrow_right_alt),
+                      ],
                     ),
                   ),
                 ],

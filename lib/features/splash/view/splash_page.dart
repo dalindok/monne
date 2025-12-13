@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:monee/core/routes/routes.dart';
 
 import 'package:monee/features/splash/splash.dart';
 
@@ -58,8 +57,7 @@ class _SplashViewState extends State<SplashView> {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state is SplashInitialized) {
-          // context.goNamed(state.initialPage.name);
-          context.goNamed(Pages.onboarding.name);
+          context.goNamed(state.initialPage.name);
         }
       },
       child: const Scaffold(

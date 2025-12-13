@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:monee/features/setting/setting.dart';
+import 'package:monee/l10n/l10n.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -26,8 +27,12 @@ class SettingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingBloc, SettingState>(
       builder: (context, state) {
-        return const Scaffold(
-          body: Center(
+        final l10n = context.l10n;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(l10n.setting),
+          ),
+          body: const Center(
             child: Text('Setting Page'),
           ),
         );

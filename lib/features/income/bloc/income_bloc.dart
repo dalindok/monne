@@ -5,8 +5,6 @@ part 'income_state.dart';
 
 class IncomeBloc extends Bloc<IncomeEvent, IncomeState> {
   IncomeBloc() : super(const IncomeState()) {
-    on<IncomeEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<IncomeEvent>((event, emit) {});
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:monee/features/record/record.dart';
+import 'package:monee/l10n/l10n.dart';
 
 class RecordPage extends StatelessWidget {
   const RecordPage({super.key});
@@ -24,10 +25,14 @@ class RecordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (context, state) {
-        return const Scaffold(
-          body: Center(
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(l10n.record),
+          ),
+          body: const Center(
             child: Text('Record Page'),
           ),
         );

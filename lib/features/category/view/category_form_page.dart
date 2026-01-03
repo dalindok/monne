@@ -1,0 +1,306 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:monee/core/bloc/category/category_bloc.dart';
+import 'package:monee/core/common/common.dart' hide Icons;
+import 'package:monee/core/enums/enum.dart';
+import 'package:monee/core/extensions/src/build_context_ext.dart';
+import 'package:monee/core/models/category_model.dart';
+import 'package:monee/core/theme/spacing.dart';
+import 'package:monee/core/utils/util.dart';
+import 'package:monee/l10n/l10n.dart';
+import 'package:monee/widgets/widgets.dart';
+import 'package:uuid/uuid.dart';
+
+class CategoryFormPage extends StatelessWidget {
+  const CategoryFormPage({super.key, this.category});
+
+  final CategoryModel? category;
+
+  static MaterialPage<void> page({Key? key, CategoryModel? category}) =>
+      MaterialPage<void>(
+        child: CategoryFormPage(
+          key: key,
+          category: category,
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: context.read<CategoryBloc>(),
+      child: CategoryFormView(
+        category: category,
+      ),
+    );
+  }
+}
+
+class CategoryFormView extends StatefulWidget {
+  const CategoryFormView({super.key, this.category});
+
+  final CategoryModel? category;
+
+  @override
+  State<CategoryFormView> createState() => _CategoryFormViewState();
+}
+
+class _CategoryFormViewState extends State<CategoryFormView> {
+  final TextEditingController _titleController = TextEditingController();
+  TrackingType _selectedType = TrackingType.expense;
+  LinearGradient _selectedGradient = prettyGradients.first;
+  String _selectedIcon = CategoriesPath.book;
+
+  @override
+  void initState() {
+    final category = widget.category;
+    if (category != null) {
+      setState(() {
+        _titleController.text = category.title;
+        _selectedType = category.type;
+        _selectedGradient = category.color;
+        _selectedIcon = category.icon;
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  void _saveCategory() {
+    if (_titleController.text.trim().isEmpty) {
+      return;
+    }
+    final updateCategory = widget.category;
+    final category = CategoryModel(
+      id: updateCategory != null ? updateCategory.id : const Uuid().v4(),
+      type: _selectedType,
+      title: _titleController.text,
+      color: _selectedGradient,
+      icon: _selectedIcon,
+      gradientDirection: gradientDirectionFromLinearGradient(_selectedGradient),
+    );
+    if (updateCategory != null) {
+      context.read<CategoryBloc>().add(CategoryUpdate(category: category));
+    } else {
+      context.read<CategoryBloc>().add(CategoryCreate(category: category));
+    }
+    context.pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final isUpdate = widget.category != null;
+    final categories = Categories().categories.entries.toList();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          isUpdate ? l10n.update_category : l10n.add_categories,
+        ),
+      ),
+      body: Column(
+        children: [
+          ListTile(
+            title: Text(l10n.expense.toUpperCase()),
+            onTap: () {
+              setState(() {
+                _selectedType = TrackingType.expense;
+              });
+            },
+            trailing: Icon(
+              _selectedType == TrackingType.expense
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_off,
+              color: _selectedType == TrackingType.expense
+                  ? context.colors.secondary
+                  : context.colors.greyPrimary,
+            ),
+          ),
+          ListTile(
+            title: Text(l10n.income.toUpperCase()),
+            onTap: () {
+              setState(() {
+                _selectedType = TrackingType.income;
+              });
+            },
+            trailing: Icon(
+              _selectedType == TrackingType.income
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_off,
+              color: _selectedType == TrackingType.income
+                  ? context.colors.secondary
+                  : context.colors.greyPrimary,
+            ),
+          ),
+          ListTile(
+            title: Text(l10n.saving.toUpperCase()),
+            onTap: () {
+              setState(() {
+                _selectedType = TrackingType.saving;
+              });
+            },
+            trailing: Icon(
+              _selectedType == TrackingType.saving
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_off,
+              color: _selectedType == TrackingType.saving
+                  ? context.colors.secondary
+                  : context.colors.greyPrimary,
+            ),
+          ),
+          const SizedBox(height: Spacing.m),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Spacing.normal),
+            child: Row(
+              spacing: Spacing.m,
+              children: [
+                CustomImage(
+                  color: _selectedGradient,
+                  icon: _selectedIcon,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: l10n.category_title,
+                      hintText: l10n.enter_category_title,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: Spacing.m),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              crossAxisSpacing: Spacing.m,
+              mainAxisSpacing: Spacing.m,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: Spacing.m),
+            itemCount: prettyGradients.length,
+            itemBuilder: (context, index) {
+              final gradient = prettyGradients[index];
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedGradient = gradient;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: gradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: gradient == _selectedGradient
+                      ? Center(
+                          child: Icon(
+                            Icons.check,
+                            color: context.colors.blueLight,
+                          ),
+                        )
+                      : const SizedBox(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: Stack(
+              children: [
+                CustomScrollView(
+                  slivers: categories.asMap().entries.expand((mapEntry) {
+                    final index = mapEntry.key;
+                    final entry = mapEntry.value;
+
+                    final title = entry.key;
+                    final icons = entry.value;
+
+                    final isLast = index == categories.length - 1;
+
+                    return [
+                      SliverPadding(
+                        padding: const EdgeInsets.all(Spacing.normal),
+                        sliver: SliverToBoxAdapter(
+                          child: Text(
+                            '🏷 ${title.toUpperCase()}',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          bottom: Spacing.normal,
+                          right: Spacing.normal,
+                          left: Spacing.normal,
+                        ),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final icon = icons[index];
+
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIcon = icon;
+                                  });
+                                },
+                                child: CustomImage(
+                                  color: _selectedIcon == icon
+                                      ? _selectedGradient
+                                      : null,
+                                  icon: icon,
+                                ),
+                              );
+                            },
+                            childCount: icons.length,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 6,
+                                mainAxisSpacing: Spacing.m,
+                                crossAxisSpacing: Spacing.m,
+                              ),
+                        ),
+                      ),
+
+                      if (isLast)
+                        const SliverToBoxAdapter(
+                          child: SizedBox(height: 100),
+                        ),
+                    ];
+                  }).toList(),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SafeArea(
+                    top: false,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Spacing.normal,
+                      ),
+                      width: double.infinity,
+                      child: CustomButton(
+                        onPress: _saveCategory,
+                        child: Text(
+                          isUpdate ? l10n.update : l10n.create,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

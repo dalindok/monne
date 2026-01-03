@@ -5,79 +5,61 @@ import 'package:monee/core/theme/colors.dart';
 import 'package:monee/core/theme/fonts.dart';
 
 const ColorScheme colorSchemeDark = ColorScheme(
-  surface: AppColors.black,
-  onSurface: AppColors.white,
+  surface: AppColors.pureDark,
+  onSurface: AppColors.pureWhite,
   //
   primary: AppColors.primary,
   // primaryContainer: Color(0xFFEE3075),
-  onPrimary: AppColors.black,
+  onPrimary: AppColors.greySecondary,
   secondary: AppColors.secondary,
-  secondaryContainer: Color(0xFFF7F7F7),
-  onSecondary: Color(0xFFF7F7F7),
+  secondaryContainer: Color(0xFF1A1A1A),
+  onSecondary: Color(0xFF1A1A1A),
   //
-  error: Color(0xFFF0271B),
-  onError: Color(0xFFFFFFFF),
+  error: Color(0xFFFF6B6B),
+  onError: Color(0xFF000000),
   brightness: Brightness.dark,
   //neutrals
 );
 
 final colorSchemeDarkExt = AppColorScheme(
-  dark: AppColors.white,
-  white: AppColors.black,
   primary: AppColors.primary,
   secondary: AppColors.secondary,
   tertiary: AppColors.tertiary,
-  primaryText: AppColors.white,
+  primaryText: AppColors.greySecondary,
   secondaryText: AppColors.secondaryTextLight,
-  neutral0: AppColors.neutral100,
-  neutral4: AppColors.neutral98,
-  neutral6: AppColors.neutral96,
-  neutral10: AppColors.neutral94,
-  neutral12: AppColors.neutral92,
-  neutral17: AppColors.neutral90,
-  neutral20: AppColors.neutral89,
-  neutral22: AppColors.neutral87,
-  neutral24: AppColors.neutral80,
-  neutral30: AppColors.neutral72,
-  neutral40: AppColors.neutral70,
-  neutral50: AppColors.neutral60,
-  neutral60: AppColors.neutral50,
-  neutral70: AppColors.neutral40,
-  neutral72: AppColors.neutral30,
-  neutral80: AppColors.neutral24,
-  neutral87: AppColors.neutral22,
-  neutral89: AppColors.neutral20,
-  neutral90: AppColors.neutral17,
-  neutral92: AppColors.neutral12,
-  neutral94: AppColors.neutral10,
-  neutral95: AppColors.neutral6,
-  neutral96: AppColors.neutral4,
-  neutral98: AppColors.neutral0,
-  neutral100: AppColors.neutral0,
-  purpleLight: AppColors.purpleLight,
+  purpleLight: AppColors.purpleDark,
   purplePrimary: AppColors.purplePrimary,
-  purpleDark: AppColors.purpleDark,
-  orangeLight: AppColors.orangeLight,
+  purpleDark: AppColors.purpleLight,
+  orangeLight: AppColors.orangePrimary,
   orangePrimary: AppColors.orangePrimary,
-  greenLight: AppColors.greenLight,
+  greenLight: AppColors.greenDark,
   greenPrimary: AppColors.greenPrimary,
-  greenDark: AppColors.greenDark,
-  transparent: AppColors.transparent,
-  darkCyanBlue: AppColors.darkCyanBlue,
-  blueLight: AppColors.blueLight,
-  greyLight: AppColors.greyLight,
+  greenDark: AppColors.greenLight,
+  transparent: const Color.fromARGB(0, 0, 0, 0),
+  darkCyanBlue: AppColors.blueLight,
+  blueLight: AppColors.darkCyanBlue,
+  greyLight: AppColors.greyDark,
   redPrimary: AppColors.redPrimary,
   greyPrimary: AppColors.greyPrimary,
-  greyDark: AppColors.greyDark,
+  greyDark: AppColors.greyLight,
   greySecondary: AppColors.greySecondary,
   processing: AppColors.processing,
   inDelivery: AppColors.inDelivery,
   delivered: AppColors.delivered,
-  bronze: AppColors.bronze,
-  silver: AppColors.silver,
-  gold: AppColors.gold,
-  platinum: AppColors.platinum,
-  diamond: AppColors.diamond,
+  darkShadeGrey100: AppColors.lightShadeGrey10,
+  darkShadeGrey60: AppColors.lightShadeGrey40,
+  darkShadeGrey70: AppColors.lightShadeGrey30,
+  darkShadeGrey80: AppColors.lightShadeGrey20,
+  darkShadeGrey90: AppColors.lightShadeGrey10,
+  lightShadeGrey10: AppColors.darkShadeGrey90,
+  lightShadeGrey20: AppColors.darkShadeGrey80,
+  lightShadeGrey30: AppColors.darkShadeGrey70,
+  lightShadeGrey40: AppColors.darkShadeGrey60,
+  lightShadeGrey50: AppColors.lightShadeGrey50,
+  pureDark: AppColors.pureWhite,
+  pureWhite: AppColors.darkShadeGrey100,
+  foodHomeAppBar: const Color(0xFF01131A),
+  divider: AppColors.darkShadeGrey80,
 );
 
 final darkTheme = ThemeData(
@@ -104,31 +86,14 @@ final darkTheme = ThemeData(
       fontSize: 12,
     ),
   ),
-  tabBarTheme: TabBarThemeData(
-    indicatorColor: colorSchemeDarkExt.neutral0,
-    labelColor: colorSchemeDarkExt.neutral0,
-    unselectedLabelColor: colorSchemeDarkExt.neutral0.withValues(alpha: 0.5),
-    labelPadding: EdgeInsets.zero,
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      fontFamily: Fonts.en,
-      fontFamilyFallback: [Fonts.kh],
-    ),
-    labelStyle: const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      fontFamily: Fonts.en,
-      fontFamilyFallback: [Fonts.kh],
-      // fontFamily: ,
-      // fontFamilyFallback: [Fonts.kh],
-    ),
+
+  scaffoldBackgroundColor: colorSchemeDarkExt.lightShadeGrey10,
+
+  dividerTheme: DividerThemeData(
+    thickness: 0.5,
+    color: colorSchemeDarkExt.lightShadeGrey20,
   ),
-  // scaffoldBackgroundColor: const Color(0xFFdddddd),
-  // scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
-  // dividerTheme:
-  //     const DividerThemeData(thickness: 0.5, color: AppColors.divider),
-  textTheme: Typography.material2021().black
+  textTheme: Typography.material2021().white
       .copyWith(
         displayLarge: const TextStyle(
           fontSize: 28,
@@ -225,10 +190,30 @@ final darkTheme = ThemeData(
         bodyColor: colorSchemeDarkExt.primaryText,
         displayColor: colorSchemeDarkExt.primaryText,
         fontFamily: Fonts.en,
-        fontFamilyFallback: [Fonts.kh],
+        fontFamilyFallback: [Fonts.kh, Fonts.en],
       ),
   colorScheme: colorSchemeDark,
   primaryColor: colorSchemeDarkExt.primary,
+  tabBarTheme: const TabBarThemeData(
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(color: AppColors.secondary, strokeAlign: 6),
+    ),
+    labelStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
+      color: AppColors.pureWhite,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
+      color: AppColors.lightShadeGrey40,
+    ),
+  ),
+
   // primaryColorDark: colorSchemeDarkExt.primary900,
   // primaryColorLight: colorSchemeDarkExt.primary400,
   datePickerTheme: const DatePickerThemeData(),
@@ -242,16 +227,12 @@ final darkTheme = ThemeData(
     collapsedTextColor: colorSchemeDarkExt.primaryText,
     collapsedIconColor: colorSchemeDarkExt.primary,
   ),
-  progressIndicatorTheme: const ProgressIndicatorThemeData(
-    color: Colors.white,
-  ),
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
-      // color: colorSchemeDarkExt.lightShadeGray50,
-      fontFamily: Fonts.en,
-      fontFamilyFallback: [Fonts.en, Fonts.kh],
+      color: colorSchemeDarkExt.lightShadeGrey50,
+      fontFamilyFallback: const [Fonts.en, Fonts.kh],
     ),
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
     fillColor: Colors.transparent,
@@ -271,67 +252,66 @@ final darkTheme = ThemeData(
       ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: const BorderSide(
+      borderSide: BorderSide(
         width: 0.5,
-        // color: colorSchemeDarkExt.darkShadeGray60,
+        color: colorSchemeDarkExt.lightShadeGrey30,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
     border: OutlineInputBorder(
-      borderSide: const BorderSide(
+      borderSide: BorderSide(
         width: 0.5,
-        // color: AppColors.borderColor,
+        color: colorSchemeDarkExt.lightShadeGrey30,
       ),
       borderRadius: BorderRadius.circular(12),
     ),
   ),
+  // cupertinoOverrideTheme: CupertinoThemeData(textTheme: ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     enableFeedback: false,
     elevation: 1,
-    backgroundColor: ThemeData.dark().bottomNavigationBarTheme.backgroundColor,
+    backgroundColor: colorSchemeDarkExt.lightShadeGrey10,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: AppColors.primary,
-    // unselectedItemColor: colorSchemeDarkExt.lightShadeGray50,
+    unselectedItemColor: colorSchemeDarkExt.darkShadeGrey80,
     selectedIconTheme: const IconThemeData(size: 24),
     unselectedIconTheme: const IconThemeData(size: 24),
     selectedLabelStyle: const TextStyle(
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: FontWeight.w500,
       color: AppColors.primary,
       fontFamily: Fonts.en,
       fontFamilyFallback: [Fonts.kh],
-      height: 1.8,
+      height: 1.6,
     ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 12,
+    unselectedLabelStyle: TextStyle(
+      fontSize: 10,
       fontWeight: FontWeight.w500,
       fontFamily: Fonts.en,
-      color: AppColors.secondaryTextLight,
-      fontFamilyFallback: [Fonts.kh],
-      height: 1.8,
+      color: colorSchemeDarkExt.lightShadeGrey30,
+      fontFamilyFallback: const [Fonts.kh],
+      height: 1.6,
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shadowColor: Colors.transparent,
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      textStyle: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        fontFamily: Fonts.en,
+        fontFamilyFallback: [Fonts.kh],
+      ),
+      shape: const StadiumBorder(),
     ),
-  ),
-  actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (BuildContext context) {
-      return const Icon(
-        Icons.chevron_left_rounded,
-        size: 36,
-      );
-    },
   ),
   iconButtonTheme: IconButtonThemeData(
     style: IconButton.styleFrom(
       padding: const EdgeInsets.all(10),
       iconSize: 20,
-      backgroundColor: colorSchemeDark.onSurface,
-      foregroundColor: colorSchemeDark.surface,
+      backgroundColor: colorSchemeDark.surface,
+      foregroundColor: colorSchemeDark.onSurface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
@@ -339,7 +319,7 @@ final darkTheme = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     systemOverlayStyle: const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
     ),
     titleTextStyle: TextStyle(
       fontSize: 20,
@@ -352,7 +332,7 @@ final darkTheme = ThemeData(
       color: colorSchemeDark.onSurface,
     ),
     elevation: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: colorSchemeDarkExt.primary,
     actionsIconTheme: IconThemeData(
       size: 24,
       color: colorSchemeDark.onSurface,

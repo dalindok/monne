@@ -5,15 +5,16 @@ import 'package:monee/core/theme/colors.dart';
 import 'package:monee/core/theme/fonts.dart';
 
 const ColorScheme colorSchemeLight = ColorScheme(
-  surface: AppColors.white,
-  onSurface: AppColors.black,
+  surface: AppColors.pureWhite,
+  onSurface: AppColors.pureDark,
   //
   primary: AppColors.primary,
   // primaryContainer: Color(0xFFEE3075),
-  onPrimary: AppColors.white,
+  onPrimary: AppColors.pureWhite,
   secondary: AppColors.secondary,
   secondaryContainer: Color(0xFFF7F7F7),
   onSecondary: Color(0xFFF7F7F7),
+
   //
   error: Color(0xFFF0271B),
   onError: Color(0xFFFFFFFF),
@@ -22,38 +23,11 @@ const ColorScheme colorSchemeLight = ColorScheme(
 );
 
 final colorSchemeLightExt = AppColorScheme(
-  dark: AppColors.black,
-  white: AppColors.white,
   primary: AppColors.primary,
   secondary: AppColors.secondary,
   tertiary: AppColors.tertiary,
   primaryText: AppColors.black,
   secondaryText: AppColors.secondaryTextLight,
-  neutral0: AppColors.neutral0,
-  neutral4: AppColors.neutral4,
-  neutral6: AppColors.neutral6,
-  neutral10: AppColors.neutral10,
-  neutral12: AppColors.neutral12,
-  neutral17: AppColors.neutral17,
-  neutral20: AppColors.neutral20,
-  neutral22: AppColors.neutral22,
-  neutral24: AppColors.neutral24,
-  neutral30: AppColors.neutral30,
-  neutral40: AppColors.neutral40,
-  neutral50: AppColors.neutral50,
-  neutral60: AppColors.neutral60,
-  neutral70: AppColors.neutral70,
-  neutral72: AppColors.neutral72,
-  neutral80: AppColors.neutral80,
-  neutral87: AppColors.neutral87,
-  neutral89: AppColors.neutral89,
-  neutral90: AppColors.neutral90,
-  neutral92: AppColors.neutral92,
-  neutral94: AppColors.neutral94,
-  neutral95: AppColors.neutral95,
-  neutral96: AppColors.neutral96,
-  neutral98: AppColors.neutral98,
-  neutral100: AppColors.neutral100,
   purpleLight: AppColors.purpleLight,
   purplePrimary: AppColors.purplePrimary,
   purpleDark: AppColors.purpleDark,
@@ -73,13 +47,21 @@ final colorSchemeLightExt = AppColorScheme(
   processing: AppColors.processing,
   inDelivery: AppColors.inDelivery,
   delivered: AppColors.delivered,
-  bronze: AppColors.bronze,
-  silver: AppColors.silver,
-  gold: AppColors.gold,
-  platinum: AppColors.platinum,
-  diamond: AppColors.diamond,
+  darkShadeGrey100: AppColors.darkShadeGrey100,
+  darkShadeGrey60: AppColors.darkShadeGrey60,
+  darkShadeGrey70: AppColors.darkShadeGrey70,
+  darkShadeGrey80: AppColors.darkShadeGrey80,
+  darkShadeGrey90: AppColors.darkShadeGrey90,
+  lightShadeGrey10: AppColors.lightShadeGrey10,
+  lightShadeGrey20: AppColors.lightShadeGrey20,
+  lightShadeGrey30: AppColors.lightShadeGrey30,
+  lightShadeGrey40: AppColors.lightShadeGrey40,
+  lightShadeGrey50: AppColors.lightShadeGrey50,
+  pureDark: AppColors.pureDark,
+  pureWhite: AppColors.pureWhite,
+  foodHomeAppBar: AppColors.primary,
+  divider: AppColors.lightShadeGrey30,
 );
-
 final lightTheme = ThemeData(
   extensions: [
     colorSchemeLightExt,
@@ -91,6 +73,7 @@ final lightTheme = ThemeData(
     secondaryLabelStyle: const TextStyle(
       color: Colors.white,
       fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
       fontSize: 12,
     ),
     deleteIconColor: Colors.white,
@@ -99,88 +82,110 @@ final lightTheme = ThemeData(
     labelStyle: const TextStyle(
       color: Colors.white,
       fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
       fontSize: 12,
     ),
   ),
-  // scaffoldBackgroundColor: const Color(0xFFdddddd),
+
+  scaffoldBackgroundColor: colorSchemeLightExt.lightShadeGrey10,
+
+  // scaffoldBackgroundColor: colorSchemeLightExt.lightShadeGrey10,
+
   // scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
-  // dividerTheme:
-  //     const DividerThemeData(thickness: 0.5, color: AppColors.divider),
+  dividerTheme: DividerThemeData(
+    thickness: 0.5,
+    color: colorSchemeLightExt.lightShadeGrey20,
+  ),
   textTheme: Typography.material2021().black
       .copyWith(
         displayLarge: const TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.w700,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         displayMedium: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w700,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         displaySmall: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         headlineLarge: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         headlineMedium: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         headlineSmall: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         titleLarge: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         titleMedium: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         titleSmall: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         bodyLarge: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         bodyMedium: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         bodySmall: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         labelSmall: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         labelMedium: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
         labelLarge: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
+          fontFamily: Fonts.en,
           fontFamilyFallback: [Fonts.kh],
         ),
       )
@@ -188,12 +193,29 @@ final lightTheme = ThemeData(
         bodyColor: colorSchemeLightExt.primaryText,
         displayColor: colorSchemeLightExt.primaryText,
         fontFamily: Fonts.en,
-        fontFamilyFallback: [Fonts.kh],
+        fontFamilyFallback: [Fonts.kh, Fonts.en],
       ),
   colorScheme: colorSchemeLight,
   primaryColor: colorSchemeLightExt.primary,
-  // primaryColorDark: colorSchemeLightExt.primary900,
-  // primaryColorLight: colorSchemeLightExt.primary400,
+  tabBarTheme: const TabBarThemeData(
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(color: AppColors.secondary, strokeAlign: 6),
+    ),
+    labelStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
+      color: AppColors.pureWhite,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      fontFamily: Fonts.en,
+      fontFamilyFallback: [Fonts.kh],
+      color: AppColors.lightShadeGrey40,
+    ),
+  ),
   datePickerTheme: const DatePickerThemeData(),
   fontFamily: Fonts.en,
   fontFamilyFallback: const [Fonts.kh, Fonts.en],
@@ -206,11 +228,11 @@ final lightTheme = ThemeData(
     collapsedIconColor: colorSchemeLightExt.primary,
   ),
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
-      // color: colorSchemeLightExt.lightShadeGray50,
-      fontFamilyFallback: [Fonts.en, Fonts.kh],
+      color: colorSchemeLightExt.lightShadeGrey50,
+      fontFamilyFallback: const [Fonts.en, Fonts.kh],
     ),
     contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
     fillColor: Colors.transparent,
@@ -244,46 +266,45 @@ final lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(12),
     ),
   ),
+  // cupertinoOverrideTheme: CupertinoThemeData(textTheme: ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     enableFeedback: false,
     elevation: 1,
-    backgroundColor: ThemeData.light().bottomNavigationBarTheme.backgroundColor,
+    backgroundColor: Colors.white,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: AppColors.primary,
-    // unselectedItemColor: colorSchemeLightExt.lightShadeGray50,
+    unselectedItemColor: colorSchemeLightExt.darkShadeGrey80,
     selectedIconTheme: const IconThemeData(size: 24),
     unselectedIconTheme: const IconThemeData(size: 24),
     selectedLabelStyle: const TextStyle(
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: FontWeight.w500,
       color: AppColors.primary,
       fontFamily: Fonts.en,
       fontFamilyFallback: [Fonts.kh],
-      height: 1.8,
+      height: 1.6,
     ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 12,
+    unselectedLabelStyle: TextStyle(
+      fontSize: 10,
       fontWeight: FontWeight.w500,
       fontFamily: Fonts.en,
-      color: AppColors.secondaryTextLight,
-      fontFamilyFallback: [Fonts.kh],
-      height: 1.8,
+      color: colorSchemeLightExt.lightShadeGrey30,
+      fontFamilyFallback: const [Fonts.kh],
+      height: 1.6,
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shadowColor: Colors.transparent,
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      textStyle: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        fontFamily: Fonts.en,
+        fontFamilyFallback: [Fonts.kh],
+      ),
+      shape: const StadiumBorder(),
     ),
-  ),
-  actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (BuildContext context) {
-      return const Icon(
-        Icons.chevron_left_rounded,
-        size: 36,
-      );
-    },
   ),
   iconButtonTheme: IconButtonThemeData(
     style: IconButton.styleFrom(
@@ -296,6 +317,7 @@ final lightTheme = ThemeData(
       ),
     ),
   ),
+
   appBarTheme: AppBarTheme(
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarBrightness: Brightness.light,
@@ -304,17 +326,17 @@ final lightTheme = ThemeData(
       fontSize: 20,
       fontWeight: FontWeight.w600,
       fontFamilyFallback: const [Fonts.kh],
-      color: colorSchemeLight.onSurface,
+      color: colorSchemeLight.surface,
       fontFamily: Fonts.en,
     ),
     iconTheme: IconThemeData(
-      color: colorSchemeLight.onSurface,
+      color: colorSchemeLight.surface,
     ),
     elevation: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: colorSchemeLightExt.primary,
     actionsIconTheme: IconThemeData(
       size: 24,
-      color: colorSchemeLight.onSurface,
+      color: colorSchemeLight.surface,
     ),
     centerTitle: true,
   ),

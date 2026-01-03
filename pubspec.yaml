@@ -22,9 +22,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.7
+  flutter_svg: ^2.2.3
   go_router: ^17.0.0
   hydrated_bloc: ^10.1.1
   intl: ^0.20.2
+  package_info_plus: ^9.0.0
   path_provider: ^2.1.5
   permission_handler: ^12.0.1
   url_launcher: ^6.3.2
@@ -43,6 +45,19 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/categories/
+    - assets/images/categories/education/
+    - assets/images/categories/entertainment/
+    - assets/images/categories/finance/
+    - assets/images/categories/food_drink/
+    - assets/images/categories/health_care/
+    - assets/images/categories/life/
+    - assets/images/categories/other/
+    - assets/images/categories/shopping/
+    - assets/images/categories/sport/
+    - assets/images/categories/travel/
+    - assets/svgs/
+    - assets/gif/
 
   fonts:
     - family: KantumruyPro

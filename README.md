@@ -20,13 +20,13 @@ To run the desired flavor either use the launch configuration in VSCode/Android 
 
 ```sh
 # Development
-$ flutter run --flavor development --target lib/main_development.dart
+$ fvm flutter run --flavor development --target lib/main_development.dart
 
 # Staging
-$ flutter run --flavor staging --target lib/main_staging.dart
+$ fvm flutter run --flavor staging --target lib/main_staging.dart
 
 # Production
-$ flutter run --flavor production --target lib/main_production.dart
+$ fvm flutter run --flavor production --target lib/main_production.dart
 ```
 
 _\*Monee works on iOS, Android, Web, and Windows._
@@ -38,7 +38,7 @@ _\*Monee works on iOS, Android, Web, and Windows._
 To run all unit and widget tests use the following command:
 
 ```sh
-$ very_good test --coverage --test-randomize-ordering-seed random
+very_good test --coverage --test-randomize-ordering-seed random
 ```
 
 To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
@@ -49,6 +49,21 @@ $ genhtml coverage/lcov.info -o coverage/
 
 # Open Coverage Report
 $ open coverage/index.html
+```
+
+---
+
+To Build APK the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
+
+```sh
+# Development
+$ fvm flutter build apk --flavor development --target lib/main_development.dart
+
+# Staging
+$ fvm flutter build apk --flavor staging --target lib/main_staging.dart
+
+# Production
+$ fvm flutter build apk --flavor production --target lib/main_production.dart
 ```
 
 ---
@@ -71,7 +86,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 }
 ```
 
-2. Then add a new key/value and description
+1. Then add a new key/value and description
 
 ```arb
 {
@@ -87,7 +102,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 }
 ```
 
-3. Use the new string
+1. Use the new string
 
 ```dart
 import 'package:monee/l10n/l10n.dart';
@@ -107,10 +122,10 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
     ...
 
     <key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>es</string>
-	</array>
+ <array>
+  <string>en</string>
+  <string>es</string>
+ </array>
 
     ...
 ```
@@ -126,7 +141,7 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 │   │   └── app_es.arb
 ```
 
-2. Add the translated strings to each `.arb` file:
+1. Add the translated strings to each `.arb` file:
 
 `app_en.arb`
 
@@ -159,7 +174,7 @@ To use the latest translations changes, you will need to generate them:
 1. Generate localizations for the current project:
 
 ```sh
-flutter gen-l10n --arb-dir="lib/l10n/arb"
+fvm flutter gen-l10n --arb-dir="lib/l10n/arb"
 ```
 
 Alternatively, run `flutter run` and code generation will take place automatically.
@@ -171,4 +186,3 @@ Alternatively, run `flutter run` and code generation will take place automatical
 [license_link]: https://opensource.org/licenses/MIT
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
-[very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli

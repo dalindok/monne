@@ -1,4 +1,4 @@
-package com.monne.app.monee
+package com.monne.app
 
 import io.flutter.embedding.android.FlutterActivity
 

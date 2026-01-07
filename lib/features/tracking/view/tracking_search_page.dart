@@ -167,92 +167,95 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.filter,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.type,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          Wrap(
-            spacing: 8,
-            children: TrackingType.values.map((type) {
-              final isSelected = _tempSelectedTypes.contains(type);
-              return FilterChip(
-                label: Text(type.name),
-                selected: isSelected,
-                onSelected: (selected) {
-                  setState(() {
-                    if (selected) {
-                      _tempSelectedTypes.add(type);
-                    } else {
-                      _tempSelectedTypes.remove(type);
-                    }
-                  });
-                },
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.category,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          BlocBuilder<CategoryBloc, CategoryState>(
-            builder: (context, state) {
-              return Wrap(
-                spacing: 8,
-                children: state.categories.map((category) {
-                  final isSelected = _tempSelectedCategories.contains(
-                    category.id,
-                  );
-                  return FilterChip(
-                    label: Text(category.title),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        if (selected) {
-                          _tempSelectedCategories.add(category.id);
-                        } else {
-                          _tempSelectedCategories.remove(category.id);
-                        }
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            },
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: context.colors.redPrimary,
+    return SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.filter,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.type,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Wrap(
+              spacing: 8,
+              children: TrackingType.values.map((type) {
+                final isSelected = _tempSelectedTypes.contains(type);
+                return FilterChip(
+                  label: Text(type.name),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      if (selected) {
+                        _tempSelectedTypes.add(type);
+                      } else {
+                        _tempSelectedTypes.remove(type);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.category,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            BlocBuilder<CategoryBloc, CategoryState>(
+              builder: (context, state) {
+                return Wrap(
+                  spacing: 8,
+                  children: state.categories.map((category) {
+                    final isSelected = _tempSelectedCategories.contains(
+                      category.id,
+                    );
+                    return FilterChip(
+                      label: Text(category.title),
+                      selected: isSelected,
+                      onSelected: (selected) {
+                        setState(() {
+                          if (selected) {
+                            _tempSelectedCategories.add(category.id);
+                          } else {
+                            _tempSelectedCategories.remove(category.id);
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: context.colors.redPrimary,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.cancel),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text(l10n.cancel),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: () => widget.onApply(
-                  _tempSelectedTypes,
-                  _tempSelectedCategories,
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () => widget.onApply(
+                    _tempSelectedTypes,
+                    _tempSelectedCategories,
+                  ),
+                  child: Text(l10n.apply),
                 ),
-                child: Text(l10n.apply),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

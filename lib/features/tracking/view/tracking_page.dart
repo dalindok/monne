@@ -105,7 +105,12 @@ class CategoriesGridView extends StatelessWidget {
     }
 
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.only(
+        top: Spacing.normal,
+        left: Spacing.normal,
+        right: Spacing.normal,
+        bottom: MediaQuery.of(context).padding.bottom + Spacing.normal,
+      ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: Spacing.m,

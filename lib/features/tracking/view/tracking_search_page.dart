@@ -5,6 +5,7 @@ import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
+import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
@@ -58,27 +59,27 @@ class _TrackingSearchViewState extends State<TrackingSearchView> {
   Future<void> _showFilterBottomSheet() async {
     await showModalBottomSheet<void>(
       context: context,
-      builder: (context) => Container(
-        // color: context.colors.redPrimary,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (context) {
+        final height = MediaQuery.of(context).size.height * 0.7;
+
+        return SizedBox(
+          height: height,
+          child: FilterBottomSheet(
+            selectedTypes: _selectedTypes,
+            selectedCategories: _selectedCategories,
+            onApply: (types, categories) {
+              setState(() {
+                _selectedTypes = types;
+                _selectedCategories = categories;
+              });
+              _onSearchChanged();
+              Navigator.of(context).pop();
+            },
           ),
-        ),
-        child: FilterBottomSheet(
-          selectedTypes: _selectedTypes,
-          selectedCategories: _selectedCategories,
-          onApply: (types, categories) {
-            setState(() {
-              _selectedTypes = types;
-              _selectedCategories = categories;
-            });
-            _onSearchChanged();
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -171,9 +172,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     return SafeArea(
       top: false,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Spacing.normal),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(

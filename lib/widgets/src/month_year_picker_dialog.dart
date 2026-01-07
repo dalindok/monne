@@ -28,7 +28,7 @@ class _MonthYearPickerDialogState extends State<MonthYearPickerDialog> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final currentYear = DateTime.now().year;
-    final years = List.generate(21, (index) => currentYear - 10 + index);
+    final years = List.generate(10, (index) => currentYear - 5 + index);
 
     return AlertDialog(
       title: Text(l10n.select_month_year),

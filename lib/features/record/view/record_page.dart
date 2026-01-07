@@ -106,7 +106,7 @@ class _RecordViewState extends State<RecordView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('${_selectedDate.year}'),
-                            Text(_getMonthName(_selectedDate.month)),
+                            Text(_getMonthName(_selectedDate.month, l10n)),
                           ],
                         ),
                       ),
@@ -242,21 +242,21 @@ class _RecordViewState extends State<RecordView> {
     );
   }
 
-  String _getMonthName(int month) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
+  String _getMonthName(int month, AppLocalizations l10n) {
+    final monthKeys = [
+      l10n.jan,
+      l10n.feb,
+      l10n.mar,
+      l10n.apr,
+      l10n.may,
+      l10n.jun,
+      l10n.jul,
+      l10n.aug,
+      l10n.sep,
+      l10n.oct,
+      l10n.nov,
+      l10n.dec,
     ];
-    return months[month - 1];
+    return monthKeys[month - 1];
   }
 }

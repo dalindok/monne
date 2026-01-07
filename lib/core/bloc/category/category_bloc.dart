@@ -60,7 +60,8 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
         final icon = entry.value;
         return CategoryModel(
           id: name,
-          title: name[0].toUpperCase() + name.substring(1),
+          titleEn: name[0].toUpperCase() + name.substring(1),
+          titleKm: _getKhmerTitle(name),
           color:
               prettyGradients[expenseCategories.keys.toList().indexOf(name) %
                   prettyGradients.length],
@@ -72,7 +73,8 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
         final icon = entry.value;
         return CategoryModel(
           id: name,
-          title: name[0].toUpperCase() + name.substring(1),
+          titleEn: name[0].toUpperCase() + name.substring(1),
+          titleKm: _getKhmerTitle(name),
           color:
               prettyGradients[(expenseCategories.length +
                       incomeCategories.keys.toList().indexOf(name)) %
@@ -131,5 +133,34 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
     return {
       'categories': state.categories.map((e) => e.toJson()).toList(),
     };
+  }
+
+  String _getKhmerTitle(String name) {
+    const khmerTitles = {
+      'food': 'អាហារ',
+      'shopping': 'ការទិញទំនិញ',
+      'phone': 'ទូរស័ព្ទ',
+      'entertainment': 'ការកំសាន្ត',
+      'education': 'ការអប់រំ',
+      'beauty': 'សម្រស់',
+      'sports': 'កីឡា',
+      'transportation': 'ការដឹកជញ្ជូន',
+      'clothing': 'សម្លៀកបំពាក់',
+      'car': 'រថយន្ត',
+      'electronics': 'អេឡិចត្រូនិច',
+      'travel': 'ការធ្វើដំណើរ',
+      'health': 'សុខភាព',
+      'pets': 'សត្វចិញ្ចឹម',
+      'housing': 'លំនៅឋាន',
+      'gifts': 'អំណោយ',
+      'donations': 'ការបរិច្ចាគ',
+      'snacks': 'ម្ហូបអាហារ',
+      'fruits': 'ផ្លែឈើ',
+      'salary': 'ប្រាក់ខែ',
+      'investment': 'ការវិនិយោគ',
+      'part-time': 'ការងាក្រៅម៉ោង',
+      'bonus': 'ប្រាក់បន្ថែម',
+    };
+    return khmerTitles[name] ?? name;
   }
 }

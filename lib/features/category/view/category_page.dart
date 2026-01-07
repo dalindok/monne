@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/category/category_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/category_model.dart';
@@ -177,11 +178,15 @@ class CategoryList extends StatelessWidget {
                 vertical: Spacing.sm,
                 horizontal: Spacing.m,
               ),
-              title: Text(
-                category.title,
-                style: context.textTheme.bodyLarge,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              title: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+                  return Text(
+                    category.categoryTitle(state.selectLanguage.languageCode),
+                    style: context.textTheme.bodyLarge,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                },
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,

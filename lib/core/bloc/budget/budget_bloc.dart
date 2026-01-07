@@ -24,7 +24,8 @@ class BudgetBloc extends HydratedBloc<BudgetEvent, BudgetState> {
         id: 'monthly_budget',
         category: CategoryModel(
           id: 'monthly_budget',
-          title: 'Monthly Budget',
+          titleEn: 'Monthly Budget',
+          titleKm: 'ថវិកាប្រចាំខែ',
           color: prettyGradients.last,
           icon: 'assets/images/categories/finance/money.png',
         ),

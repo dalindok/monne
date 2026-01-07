@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/budget/budget_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/budget_model.dart';
@@ -176,7 +177,17 @@ class _BadgetViewState extends State<BadgetView> {
       builder: (context) {
         final l10n = context.l10n;
         return AlertDialog(
-          title: Text(l10n.set_budget_for(budget.category.title)),
+          title: BlocBuilder<LanguageBloc, LanguageState>(
+            builder: (context, state) {
+              return Text(
+                l10n.set_budget_for(
+                  budget.category.categoryTitle(
+                    state.selectLanguage.languageCode,
+                  ),
+                ),
+              );
+            },
+          ),
           content: TextField(
             controller: controller,
             keyboardType: TextInputType.number,

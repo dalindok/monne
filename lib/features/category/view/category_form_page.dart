@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/category/category_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/common/common.dart' hide Icons;
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/src/build_context_ext.dart';
@@ -46,7 +47,8 @@ class CategoryFormView extends StatefulWidget {
 }
 
 class _CategoryFormViewState extends State<CategoryFormView> {
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _titleControllerEn = TextEditingController();
+  final TextEditingController _titleControllerKm = TextEditingController();
   TrackingType _selectedType = TrackingType.expense;
   LinearGradient _selectedGradient = prettyGradients.first;
   String _selectedIcon = CategoriesPath.book;
@@ -56,7 +58,8 @@ class _CategoryFormViewState extends State<CategoryFormView> {
     final category = widget.category;
     if (category != null) {
       setState(() {
-        _titleController.text = category.title;
+        _titleControllerEn.text = category.titleEn;
+        _titleControllerKm.text = category.titleKm;
         _selectedType = category.type;
         _selectedGradient = category.color;
         _selectedIcon = category.icon;
@@ -67,19 +70,21 @@ class _CategoryFormViewState extends State<CategoryFormView> {
 
   @override
   void dispose() {
-    _titleController.dispose();
+    _titleControllerEn.dispose();
     super.dispose();
   }
 
   void _saveCategory() {
-    if (_titleController.text.trim().isEmpty) {
+    if (_titleControllerEn.text.trim().isEmpty ||
+        _titleControllerKm.text.trim().isEmpty) {
       return;
     }
     final updateCategory = widget.category;
     final category = CategoryModel(
       id: updateCategory != null ? updateCategory.id : const Uuid().v4(),
       type: _selectedType,
-      title: _titleController.text,
+      titleEn: _titleControllerEn.text,
+      titleKm: _titleControllerKm.text,
       color: _selectedGradient,
       icon: _selectedIcon,
       gradientDirection: gradientDirectionFromLinearGradient(_selectedGradient),
@@ -96,7 +101,6 @@ class _CategoryFormViewState extends State<CategoryFormView> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final isUpdate = widget.category != null;
-    final categories = Categories().categories.entries.toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -164,18 +168,30 @@ class _CategoryFormViewState extends State<CategoryFormView> {
                   icon: _selectedIcon,
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      labelText: l10n.category_title,
-                      hintText: l10n.enter_category_title,
-                    ),
+                  child: Column(
+                    spacing: Spacing.normal,
+                    children: [
+                      TextField(
+                        controller: _titleControllerEn,
+                        decoration: InputDecoration(
+                          labelText: l10n.category_title_en,
+                          hintText: l10n.enter_category_title_en,
+                        ),
+                      ),
+                      TextField(
+                        controller: _titleControllerKm,
+                        decoration: InputDecoration(
+                          labelText: l10n.category_title_km,
+                          hintText: l10n.enter_category_title_km,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: Spacing.m),
+          const SizedBox(height: Spacing.normal),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -215,68 +231,75 @@ class _CategoryFormViewState extends State<CategoryFormView> {
           Expanded(
             child: Stack(
               children: [
-                CustomScrollView(
-                  slivers: categories.asMap().entries.expand((mapEntry) {
-                    final index = mapEntry.key;
-                    final entry = mapEntry.value;
+                BlocBuilder<LanguageBloc, LanguageState>(
+                  builder: (context, state) {
+                    final categories = state.selectLanguage.languageCode == 'en'
+                        ? Categories().categories.entries.toList()
+                        : Categories().categoriesKm.entries.toList();
+                    return CustomScrollView(
+                      slivers: categories.asMap().entries.expand((mapEntry) {
+                        final index = mapEntry.key;
+                        final entry = mapEntry.value;
 
-                    final title = entry.key;
-                    final icons = entry.value;
+                        final title = entry.key;
+                        final icons = entry.value;
 
-                    final isLast = index == categories.length - 1;
+                        final isLast = index == categories.length - 1;
 
-                    return [
-                      SliverPadding(
-                        padding: const EdgeInsets.all(Spacing.normal),
-                        sliver: SliverToBoxAdapter(
-                          child: Text(
-                            '🏷 ${title.toUpperCase()}',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          bottom: Spacing.normal,
-                          right: Spacing.normal,
-                          left: Spacing.normal,
-                        ),
-                        sliver: SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              final icon = icons[index];
-
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIcon = icon;
-                                  });
-                                },
-                                child: CustomImage(
-                                  color: _selectedIcon == icon
-                                      ? _selectedGradient
-                                      : null,
-                                  icon: icon,
-                                ),
-                              );
-                            },
-                            childCount: icons.length,
-                          ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 6,
-                                mainAxisSpacing: Spacing.m,
-                                crossAxisSpacing: Spacing.m,
+                        return [
+                          SliverPadding(
+                            padding: const EdgeInsets.all(Spacing.normal),
+                            sliver: SliverToBoxAdapter(
+                              child: Text(
+                                '🏷 ${title.toUpperCase()}',
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                        ),
-                      ),
+                            ),
+                          ),
+                          SliverPadding(
+                            padding: const EdgeInsets.only(
+                              bottom: Spacing.normal,
+                              right: Spacing.normal,
+                              left: Spacing.normal,
+                            ),
+                            sliver: SliverGrid(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  final icon = icons[index];
 
-                      if (isLast)
-                        const SliverToBoxAdapter(
-                          child: SizedBox(height: 100),
-                        ),
-                    ];
-                  }).toList(),
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedIcon = icon;
+                                      });
+                                    },
+                                    child: CustomImage(
+                                      color: _selectedIcon == icon
+                                          ? _selectedGradient
+                                          : null,
+                                      icon: icon,
+                                    ),
+                                  );
+                                },
+                                childCount: icons.length,
+                              ),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 6,
+                                    mainAxisSpacing: Spacing.m,
+                                    crossAxisSpacing: Spacing.m,
+                                  ),
+                            ),
+                          ),
+
+                          if (isLast)
+                            const SliverToBoxAdapter(
+                              child: SizedBox(height: 100),
+                            ),
+                        ];
+                      }).toList(),
+                    );
+                  },
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,

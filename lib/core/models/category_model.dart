@@ -8,7 +8,8 @@ class CategoryModel {
   const CategoryModel({
     this.id = '',
     this.type = TrackingType.expense,
-    this.title = '',
+    this.titleEn = '',
+    this.titleKm = '',
     this.color = const LinearGradient(colors: []),
     this.icon = '',
     this.gradientDirection = GradientDirection.leftToRight,
@@ -23,7 +24,8 @@ class CategoryModel {
     return CategoryModel(
       id: map['id'] as String,
       type: TrackingType.fromMap(map['type'] as String),
-      title: map['title'] as String,
+      titleEn: map['titleEn'] as String,
+      titleKm: map['titleKm'] as String,
       icon: map['icon'] as String,
       gradientDirection: direction,
       color: LinearGradient(
@@ -39,9 +41,16 @@ class CategoryModel {
   factory CategoryModel.fromJson(String source) =>
       CategoryModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
+  String categoryTitle(String lang) {
+    return lang == 'km'
+        ? (titleKm.isNotEmpty ? titleKm : titleEn)
+        : (titleEn.isNotEmpty ? titleEn : titleKm);
+  }
+
   final String id;
   final TrackingType type;
-  final String title;
+  final String titleEn;
+  final String titleKm;
   final LinearGradient color;
   final String icon;
   final GradientDirection gradientDirection;
@@ -49,7 +58,8 @@ class CategoryModel {
   CategoryModel copyWith({
     String? id,
     TrackingType? type,
-    String? title,
+    String? titleEn,
+    String? titleKm,
     LinearGradient? color,
     String? icon,
     GradientDirection? gradientDirection,
@@ -57,7 +67,8 @@ class CategoryModel {
     return CategoryModel(
       id: id ?? this.id,
       type: type ?? this.type,
-      title: title ?? this.title,
+      titleEn: titleEn ?? this.titleEn,
+      titleKm: titleKm ?? this.titleKm,
       color: color ?? this.color,
       icon: icon ?? this.icon,
       gradientDirection: gradientDirection ?? this.gradientDirection,
@@ -68,7 +79,8 @@ class CategoryModel {
     return <String, dynamic>{
       'id': id,
       'type': type.name,
-      'title': title,
+      'titleEn': titleEn,
+      'titleKm': titleKm,
       'icon': icon,
       'gradientDirection': gradientDirection.name,
       'color': color.colors.map((c) => c.toARGB32()).toList(),

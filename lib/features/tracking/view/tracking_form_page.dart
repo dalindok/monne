@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/category_model.dart';
@@ -163,7 +164,15 @@ class _TrackingFormViewState extends State<TrackingFormView> {
                     color: widget.selectedCategory.color,
                     icon: widget.selectedCategory.icon,
                   ),
-                  title: Text(widget.selectedCategory.title),
+                  title: BlocBuilder<LanguageBloc, LanguageState>(
+                    builder: (context, state) {
+                      return Text(
+                        widget.selectedCategory.categoryTitle(
+                          state.selectLanguage.languageCode,
+                        ),
+                      );
+                    },
+                  ),
                   // trailing: const Icon(Icons.chevron_right),
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: Spacing.m,

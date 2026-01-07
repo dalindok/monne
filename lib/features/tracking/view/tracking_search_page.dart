@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:monee/core/bloc/category/category_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
@@ -217,7 +218,15 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       category.id,
                     );
                     return FilterChip(
-                      label: Text(category.title),
+                      label: BlocBuilder<LanguageBloc, LanguageState>(
+                        builder: (context, state) {
+                          return Text(
+                            category.categoryTitle(
+                              state.selectLanguage.languageCode,
+                            ),
+                          );
+                        },
+                      ),
                       selected: isSelected,
                       onSelected: (selected) {
                         setState(() {

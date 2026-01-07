@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:monee/core/bloc/budget/budget_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/extensions/src/build_context_ext.dart';
 import 'package:monee/core/models/budget_model.dart';
 import 'package:monee/l10n/l10n.dart';
@@ -53,19 +54,25 @@ class BudgetSettingView extends StatelessWidget {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text(l10n.clear_budget_value),
-                              content: Text.rich(
-                                TextSpan(
-                                  text: l10n.are_u_sure_remove_budget_value,
-                                  children: [
+                              content: BlocBuilder<LanguageBloc, LanguageState>(
+                                builder: (context, state) {
+                                  return Text.rich(
                                     TextSpan(
-                                      text: budget.category.title,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                      text: l10n.are_u_sure_remove_budget_value,
+                                      children: [
+                                        TextSpan(
+                                          text: budget.category.categoryTitle(
+                                            state.selectLanguage.languageCode,
+                                          ),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const TextSpan(text: ' ?'),
+                                      ],
                                     ),
-                                    const TextSpan(text: ' ?'),
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
                               actions: [
                                 TextButton(
@@ -94,7 +101,15 @@ class BudgetSettingView extends StatelessWidget {
                         }
                       : null,
                 ),
-                title: Text(budget.category.title),
+                title: BlocBuilder<LanguageBloc, LanguageState>(
+                  builder: (context, state) {
+                    return Text(
+                      budget.category.categoryTitle(
+                        state.selectLanguage.languageCode,
+                      ),
+                    );
+                  },
+                ),
                 trailing: budget.budget > 0
                     ? Text(
                         NumberFormat.currency(
@@ -135,7 +150,17 @@ class BudgetSettingView extends StatelessWidget {
       builder: (context) {
         final l10n = context.l10n;
         return AlertDialog(
-          title: Text(l10n.set_budget_for(budget.category.title)),
+          title: BlocBuilder<LanguageBloc, LanguageState>(
+            builder: (context, state) {
+              return Text(
+                l10n.set_budget_for(
+                  budget.category.categoryTitle(
+                    state.selectLanguage.languageCode,
+                  ),
+                ),
+              );
+            },
+          ),
           content: TextField(
             controller: controller,
             keyboardType: TextInputType.number,

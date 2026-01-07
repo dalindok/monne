@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/category_model.dart';
 import 'package:monee/core/theme/spacing.dart';
@@ -43,7 +45,13 @@ class BudgetItem extends StatelessWidget {
                     icon: category.icon,
                   ),
                 ),
-                Text(category.title),
+                BlocBuilder<LanguageBloc, LanguageState>(
+                  builder: (context, state) {
+                    return Text(
+                      category.categoryTitle(state.selectLanguage.languageCode),
+                    );
+                  },
+                ),
               ],
             ),
             Row(

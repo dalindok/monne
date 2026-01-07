@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/category/category_bloc.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/common/common.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
@@ -92,7 +93,8 @@ class CategoriesGridView extends StatelessWidget {
     final settingsCategory = CategoryModel(
       id: 'settings',
       type: type,
-      title: context.l10n.add_categories,
+      titleEn: context.l10n.add_categories,
+      titleKm: context.l10n.add_categories,
       color: const LinearGradient(colors: [Colors.grey, Colors.black]),
       icon: CategoriesPath.add,
     );
@@ -140,12 +142,16 @@ class CategoriesGridView extends StatelessWidget {
                 icon: category.icon,
               ),
               const SizedBox(height: 8),
-              Text(
-                category.title,
-                style: context.textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+                  return Text(
+                    category.categoryTitle(state.selectLanguage.languageCode),
+                    style: context.textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                },
               ),
             ],
           ),

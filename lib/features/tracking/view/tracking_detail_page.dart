@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
@@ -90,7 +91,15 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
                 color: widget.tracking.category.color,
                 icon: widget.tracking.category.icon,
               ),
-              title: Text(widget.tracking.category.title),
+              title: BlocBuilder<LanguageBloc, LanguageState>(
+                builder: (context, state) {
+                  return Text(
+                    widget.tracking.category.categoryTitle(
+                      state.selectLanguage.languageCode,
+                    ),
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: Spacing.m,

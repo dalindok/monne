@@ -148,6 +148,7 @@ class _TrackingFormViewState extends State<TrackingFormView> {
         : l10n.saving;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           isUpdate ? '${l10n.update} $titleType' : '${l10n.add} $titleType',
@@ -226,6 +227,7 @@ class _TrackingFormViewState extends State<TrackingFormView> {
                           hintText: l10n.enter_descprition,
                         ),
                       ),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),

@@ -141,7 +141,7 @@ class CategoryList extends StatelessWidget {
 
     return ReorderableListView.builder(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).padding.bottom + Spacing.normal,
+        bottom: MediaQuery.of(context).padding.bottom + Spacing.l9,
       ),
       itemCount: filteredCategories.length,
       onReorder: (oldIndex, newIndex) {

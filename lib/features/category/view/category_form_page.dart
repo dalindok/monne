@@ -102,6 +102,7 @@ class _CategoryFormViewState extends State<CategoryFormView> {
     final l10n = context.l10n;
     final isUpdate = widget.category != null;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           isUpdate ? l10n.update_category : l10n.add_categories,

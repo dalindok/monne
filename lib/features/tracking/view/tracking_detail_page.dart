@@ -117,7 +117,9 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
                 style: context.textTheme.titleMedium?.copyWith(
                   color: widget.tracking.type.isExpense
                       ? context.colors.redPrimary
-                      : context.colors.redPrimary,
+                      : widget.tracking.type.isIncome
+                      ? context.colors.greenPrimary
+                      : context.colors.primary,
                 ),
               ),
             ),
@@ -127,6 +129,13 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
               title: Text(l10n.amount),
               trailing: Text(
                 '${widget.tracking.type.isExpense ? '-' : '+'} \$${widget.tracking.amount}',
+                style: context.textTheme.titleMedium?.copyWith(
+                  color: widget.tracking.type.isExpense
+                      ? context.colors.redPrimary
+                      : widget.tracking.type.isIncome
+                      ? context.colors.greenPrimary
+                      : context.colors.primary,
+                ),
               ),
             ),
             // date tracking

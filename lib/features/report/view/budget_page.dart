@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/budget/budget_bloc.dart';
 import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
+import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/budget_model.dart';
 import 'package:monee/core/models/tracking_model.dart';
@@ -96,21 +97,45 @@ class _BadgetViewState extends State<BadgetView> {
                 );
               }
 
-              return ListView.builder(
+              final monthlyTrackings = trackingState.allTrackings.where((
+                tracking,
+              ) {
+                try {
+                  final date = DateTime.parse(tracking.date);
+                  return date.year == _selectedDate.year &&
+                      date.month == _selectedDate.month;
+                } on Exception catch (_) {
+                  return false;
+                }
+              }).toList();
+
+              const initValue = 0.0;
+              final totalExpense = monthlyTrackings
+                  .where((t) => t.type == TrackingType.expense)
+                  .fold(initValue, (sum, t) => sum + t.amount);
+
+              return ListView.separated(
+                separatorBuilder: (context, index) => Container(
+                  height: Spacing.normal,
+                  color: context.colors.divider,
+                ),
                 itemCount: budgetData.length,
                 itemBuilder: (context, index) {
                   final budget = budgetData[index];
                   final expense = budget.category.id == 'monthly_budget'
-                      ? budget.expense
+                      ? totalExpense
                       : _calculateExpenseForCategory(
                           trackingState.expenses,
                           budget.category.id,
                           _selectedDate,
                         );
-                  final percentage = budget.budget > 0
-                      ? (expense / budget.budget)
-                      : 0.0;
                   final remaining = budget.budget - expense;
+                  final percentage = budget.budget > 0
+                      ? (remaining / budget.budget).clamp(
+                          0.0,
+                          1.0,
+                        )
+                      : 1.0;
 
                   return BudgetItem(
                     category: budget.category,

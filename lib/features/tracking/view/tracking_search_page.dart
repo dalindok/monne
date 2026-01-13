@@ -6,6 +6,7 @@ import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/theme/spacing.dart';
+import 'package:monee/core/theme/theme.dart';
 import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
@@ -190,7 +191,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               children: TrackingType.values.map((type) {
                 final isSelected = _tempSelectedTypes.contains(type);
                 return FilterChip(
-                  label: Text(type.name),
+                  label: Text(
+                    type.name,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.pureWhite,
+                    ),
+                  ),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
@@ -223,6 +229,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           return Text(
                             category.categoryTitle(
                               state.selectLanguage.languageCode,
+                            ),
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: AppColors.pureWhite,
                             ),
                           );
                         },
@@ -259,7 +268,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _tempSelectedTypes,
                     _tempSelectedCategories,
                   ),
-                  child: Text(l10n.apply),
+                  child: Text(
+                    l10n.apply,
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: AppColors.pureWhite,
+                    ),
+                  ),
                 ),
               ],
             ),

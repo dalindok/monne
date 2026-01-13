@@ -7,6 +7,7 @@ import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/routes/routes.dart';
+import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/l10n/l10n.dart';
 
 class ReportPage extends StatelessWidget {
@@ -67,9 +68,10 @@ class ReportView extends StatelessWidget {
                 0.0,
                 1.0,
               );
+              final remainingLabel = 100 - (remainingPercentage * 100);
 
               return Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(Spacing.normal),
                 child: Column(
                   children: [
                     InkWell(
@@ -78,7 +80,7 @@ class ReportView extends StatelessWidget {
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(Spacing.normal),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.blue.shade200),
@@ -162,7 +164,7 @@ class ReportView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: Spacing.normal),
                     // Monthly Budget
                     InkWell(
                       onTap: () async {
@@ -170,7 +172,7 @@ class ReportView extends StatelessWidget {
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(Spacing.normal),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.green.shade200),
@@ -187,27 +189,27 @@ class ReportView extends StatelessWidget {
                                     width: 80,
                                     height: 80,
                                     child: CircularProgressIndicator(
-                                      value: remainingPercentage,
+                                      value: remainingLabel,
                                       backgroundColor: Colors.grey.shade300,
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                         remaining >= 0
-                                            ? Colors.green
-                                            : Colors.red,
+                                            ? context.colors.greenPrimary
+                                            : context.colors.redPrimary,
                                       ),
                                       strokeWidth: 8,
                                     ),
                                   ),
                                   Align(
-                                    child: remainingPercentage > 0
+                                    child: remaining > 0
                                         ? Text(
-                                            '${(remainingPercentage * 100).toStringAsFixed(0)}%',
+                                            '${(remainingLabel * 100).toStringAsFixed(0)}%',
                                           )
                                         : const Text('--'),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: Spacing.normal),
                             // Budget Details
                             Expanded(
                               child: Column(
@@ -215,23 +217,27 @@ class ReportView extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${l10n.budget}: \$${monthlyBudget.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: context.textTheme.titleLarge
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   const Divider(),
                                   Text(
                                     '${l10n.expense}: \$${totalExpense.toStringAsFixed(2)}',
-                                    style: const TextStyle(color: Colors.red),
+                                    style: context.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: context.colors.redPrimary,
+                                        ),
                                   ),
                                   Text(
-                                    '${l10n.income}: \$${remaining.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      color: remaining >= 0
-                                          ? Colors.green
-                                          : Colors.red,
-                                    ),
+                                    '${l10n.remaining}: \$${remaining.toStringAsFixed(2)}',
+                                    style: context.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: remaining >= 0
+                                              ? context.colors.greenPrimary
+                                              : context.colors.redPrimary,
+                                        ),
                                   ),
                                 ],
                               ),

@@ -28,11 +28,17 @@ class TrackingItem extends StatelessWidget {
       ),
       title: Text(tracking.title),
       trailing: Text(
-        '${tracking.type.isExpense ? '-' : '+'} \$${tracking.amount}',
+        '${tracking.type.isExpense
+            ? '-'
+            : tracking.type.isIncome
+            ? '+'
+            : ''}\$${tracking.amount}',
         style: context.textTheme.bodyMedium?.copyWith(
           color: tracking.type.isExpense
               ? context.colors.redPrimary
-              : context.colors.greenPrimary,
+              : tracking.type.isIncome
+              ? context.colors.greenPrimary
+              : context.colors.primary,
         ),
       ),
     );

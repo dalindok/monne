@@ -144,7 +144,7 @@
   "@are_u_sure_remove_tracking": {},
   "add_categories": "ថែម កាតាឡុក",
   "@add_categories": {},
-  "no_type_category": "មិនមានកាតាឡុក ${type} ឡើយ.",
+  "no_type_category": "មិនមានកាតាឡុក{type}ឡើយ.",
   "@no_type_category": {
     "placeholders": {
       "type": {}
@@ -215,5 +215,7 @@
   "nov": "វិច្ឆិកា",
   "@nov": {},
   "dec": "ធ្នូ",
-  "@dec": {}
+  "@dec": {},
+  "setting_category": "កំណត់កាតាឡុក",
+  "@setting_category": {}
 }

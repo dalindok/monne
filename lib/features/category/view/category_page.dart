@@ -12,64 +12,107 @@ import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
 class CategoryPage extends StatelessWidget {
-  const CategoryPage({super.key});
+  const CategoryPage({required this.type, super.key});
 
-  static MaterialPage<void> page({Key? key}) => MaterialPage<void>(
-    child: CategoryPage(key: key),
-  );
+  final TrackingType type;
+
+  static MaterialPage<void> page({required TrackingType type, Key? key}) =>
+      MaterialPage<void>(
+        child: CategoryPage(key: key, type: type),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return const CategoryView();
+    return CategoryView(
+      type: type,
+    );
   }
 }
 
-class CategoryView extends StatelessWidget {
-  const CategoryView({super.key});
+class CategoryView extends StatefulWidget {
+  const CategoryView({required this.type, super.key});
+
+  final TrackingType type;
+
+  @override
+  State<CategoryView> createState() => _CategoryViewState();
+}
+
+class _CategoryViewState extends State<CategoryView>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: TrackingType.values.indexOf(widget.type),
+    );
+  }
+
+  @override
+  void didUpdateWidget(CategoryView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.type != widget.type) {
+      _tabController.animateTo(TrackingType.values.indexOf(widget.type));
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(l10n.category),
-          bottom: TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
-            tabs: [
-              Tab(text: l10n.expense), // Expense
-              Tab(text: l10n.income), // Income
-              Tab(text: l10n.saving), // Saving
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.category),
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorSize: TabBarIndicatorSize.tab,
+          tabs: [
+            Tab(text: l10n.expense), // Expense
+            Tab(text: l10n.income), // Income
+            Tab(text: l10n.saving), // Saving
+          ],
+        ),
+      ),
+      body: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (context, state) {
+          return TabBarView(
+            controller: _tabController,
+            children: [
+              CategoryList(
+                type: TrackingType.expense,
+                categories: state.categories,
+              ),
+              CategoryList(
+                type: TrackingType.income,
+                categories: state.categories,
+              ),
+              CategoryList(
+                type: TrackingType.saving,
+                categories: state.categories,
+              ),
             ],
-          ),
-        ),
-        body: BlocBuilder<CategoryBloc, CategoryState>(
-          builder: (context, state) {
-            return TabBarView(
-              children: [
-                CategoryList(
-                  type: TrackingType.expense,
-                  categories: state.categories,
-                ),
-                CategoryList(
-                  type: TrackingType.income,
-                  categories: state.categories,
-                ),
-                CategoryList(
-                  type: TrackingType.saving,
-                  categories: state.categories,
-                ),
-              ],
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await context.pushNamed(Pages.categoryForm.name);
-          },
-          child: const Icon(Icons.add),
-        ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final currentIndex = _tabController.index;
+          final type = TrackingType.values[currentIndex];
+          await context.pushNamed(
+            Pages.categoryForm.name,
+            queryParameters: {'type': type.name},
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -135,7 +178,15 @@ class CategoryList extends StatelessWidget {
 
     if (filteredCategories.isEmpty) {
       return Center(
-        child: Text(context.l10n.no_type_category(type.name)),
+        child: Text(
+          context.l10n.no_type_category(
+            switch (type) {
+              TrackingType.expense => context.l10n.expense.toUpperCase(),
+              TrackingType.income => context.l10n.income.toUpperCase(),
+              TrackingType.saving => context.l10n.saving.toUpperCase(),
+            },
+          ),
+        ),
       );
     }
 

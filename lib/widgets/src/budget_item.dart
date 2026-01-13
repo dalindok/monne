@@ -27,6 +27,7 @@ class BudgetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remainingLabel = 100 - (remainingPercentage * 100);
     return InkWell(
       onTap: onPress,
       child: Container(
@@ -66,10 +67,10 @@ class BudgetItem extends StatelessWidget {
                         width: 80,
                         height: 80,
                         child: CircularProgressIndicator(
-                          value: remainingPercentage,
+                          value: remainingLabel,
                           backgroundColor: Colors.grey.shade300,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            remaining >= 0
+                            remaining >= 0.0
                                 ? context.colors.greenPrimary
                                 : context.colors.redPrimary,
                           ),
@@ -77,9 +78,9 @@ class BudgetItem extends StatelessWidget {
                         ),
                       ),
                       Align(
-                        child: remainingPercentage > 0
+                        child: remaining >= 0
                             ? Text(
-                                '${(remainingPercentage * 100).toStringAsFixed(0)}%',
+                                '${remainingLabel.toStringAsFixed(0)}%',
                               )
                             : const Text('--'),
                       ),

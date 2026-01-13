@@ -144,7 +144,7 @@
   "@are_u_sure_remove_tracking": {},
   "add_categories": "Add Categories",
   "@add_categories": {},
-  "no_type_category": "No ${type} categories yet.",
+  "no_type_category": "No {type} categories yet.",
   "@no_type_category": {
     "placeholders": {
       "type": {}
@@ -215,5 +215,7 @@
   "nov": "Nov",
   "@nov": {},
   "dec": "Dec",
-  "@dec": {}
+  "@dec": {},
+  "setting_category": "Setting Category",
+  "@setting_category": {}
 }

@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:monee/core/enums/src/tracking_type.dart';
 import 'package:monee/core/extensions/src/build_context_ext.dart';
 import 'package:monee/core/models/category_model.dart';
 import 'package:monee/core/models/tracking_model.dart';
@@ -277,7 +278,12 @@ class AppRouter {
             name: Pages.category.name,
             path: 'category',
             pageBuilder: (context, state) {
-              return CategoryPage.page(key: state.pageKey);
+              var type = TrackingType.expense;
+              final jsonType = state.uri.queryParameters['type'];
+              if (jsonType != null && jsonType.isNotEmpty) {
+                type = TrackingType.fromMap(jsonType);
+              }
+              return CategoryPage.page(key: state.pageKey, type: type);
             },
           ),
           GoRoute(
@@ -285,13 +291,19 @@ class AppRouter {
             path: 'category-form',
             pageBuilder: (context, state) {
               CategoryModel? category;
-              final jsonString = state.uri.queryParameters['category'];
-              if (jsonString != null && jsonString.isNotEmpty) {
-                category = CategoryModel.fromJson(jsonString);
+              TrackingType? type;
+              final jsonCategory = state.uri.queryParameters['category'];
+              final jsonType = state.uri.queryParameters['type'];
+              if (jsonCategory != null && jsonCategory.isNotEmpty) {
+                category = CategoryModel.fromJson(jsonCategory);
+              }
+              if (jsonType != null && jsonType.isNotEmpty) {
+                type = TrackingType.fromMap(jsonType);
               }
               return CategoryFormPage.page(
                 key: state.pageKey,
                 category: category,
+                type: type,
               );
             },
           ),

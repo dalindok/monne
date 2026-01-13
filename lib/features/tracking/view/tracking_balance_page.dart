@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/theme/spacing.dart';
+import 'package:monee/core/theme/theme.dart';
+import 'package:monee/core/utils/util.dart';
 import 'package:monee/l10n/l10n.dart';
 
 class TrackingBalancePage extends StatelessWidget {
@@ -45,15 +46,21 @@ class _TrackingBalanceViewState extends State<TrackingBalanceView> {
         title: DropdownButton<String>(
           value: _selectedYear,
           underline: const SizedBox(),
-          iconEnabledColor: context.colors.pureWhite,
-          dropdownColor: context.colors.pureWhite,
+          iconEnabledColor: AppColors.pureWhite,
+          dropdownColor: context.colors.primary,
           padding: const EdgeInsets.symmetric(horizontal: Spacing.sm),
           borderRadius: BorderRadius.circular(8),
+          style: context.textTheme.titleLarge?.copyWith(
+            color: AppColors.pureWhite,
+            fontWeight: FontWeight.w600,
+          ),
           alignment: Alignment.center,
           items: years.map((year) {
             return DropdownMenuItem<String>(
               value: year,
-              child: Text(year == 'all' ? l10n.all : year),
+              child: Text(
+                year == 'all' ? l10n.all : year,
+              ),
             );
           }).toList(),
           onChanged: (value) {
@@ -196,6 +203,7 @@ class _TrackingBalanceViewState extends State<TrackingBalanceView> {
               // List Items
               Expanded(
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: monthlyData.length,
                   itemBuilder: (context, index) {
                     final entry = monthlyData.entries.elementAt(index);
@@ -211,7 +219,6 @@ class _TrackingBalanceViewState extends State<TrackingBalanceView> {
                                     .key
                                     .split('-')[0] !=
                                 year);
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -240,9 +247,7 @@ class _TrackingBalanceViewState extends State<TrackingBalanceView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                DateFormat.MMMM().format(
-                                  DateTime.tryParse(month) ?? DateTime.now(),
-                                ),
+                                getMonthName(int.tryParse(month) ?? 1, l10n),
                               ),
                               Text(
                                 '\$${data['expense']!.toStringAsFixed(2)}',

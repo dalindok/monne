@@ -93,8 +93,8 @@ class CategoriesGridView extends StatelessWidget {
     final settingsCategory = CategoryModel(
       id: 'settings',
       type: type,
-      titleEn: context.l10n.add_categories,
-      titleKm: context.l10n.add_categories,
+      titleEn: context.l10n.setting_category,
+      titleKm: context.l10n.setting_category,
       color: const LinearGradient(colors: [Colors.grey, Colors.black]),
       icon: CategoriesPath.add,
     );
@@ -126,7 +126,12 @@ class CategoriesGridView extends StatelessWidget {
           padding: EdgeInsets.zero,
           onPressed: () async {
             if (category.id == 'settings') {
-              await context.pushNamed(Pages.category.name);
+              await context.pushNamed(
+                Pages.category.name,
+                queryParameters: {
+                  'type': type.name,
+                },
+              );
             } else {
               await context.pushNamed(
                 Pages.trackingForm.name,

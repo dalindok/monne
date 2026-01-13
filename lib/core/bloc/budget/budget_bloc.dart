@@ -31,7 +31,16 @@ class BudgetBloc extends HydratedBloc<BudgetEvent, BudgetState> {
         ),
       ),
     ];
-    emit(BudgetState(budgets: firstBudget));
+
+    // Merge existing budgets with defaults, adding only missing ones
+    final existingBudgets = List<BudgetModel>.from(state.budgets);
+    for (final defaultBudget in firstBudget) {
+      if (!existingBudgets.any((b) => b.id == defaultBudget.id)) {
+        existingBudgets.add(defaultBudget);
+      }
+    }
+
+    emit(BudgetState(budgets: existingBudgets));
   }
 
   void _syncWithCategories(

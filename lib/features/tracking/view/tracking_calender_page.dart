@@ -172,8 +172,10 @@ class CalendarGrid extends StatelessWidget {
         // Calendar grid
         Expanded(
           child: GridView.builder(
+            physics: const BouncingScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
+              childAspectRatio: 0.8,
             ),
             itemCount: daysInMonth + firstWeekday - 1,
             itemBuilder: (context, index) {
@@ -234,19 +236,27 @@ class CalendarDayCell extends StatelessWidget {
           children: [
             Text(
               '$day',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: context.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             if (hasData) ...[
               const SizedBox(height: 4),
               if (expense > 0)
                 Text(
                   '-${expense.toStringAsFixed(0)}',
-                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colors.redPrimary,
+                    fontSize: 10,
+                  ),
                 ),
               if (income > 0)
                 Text(
                   '+${income.toStringAsFixed(0)}',
-                  style: const TextStyle(color: Colors.green, fontSize: 12),
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: context.colors.greenPrimary,
+                    fontSize: 10,
+                  ),
                 ),
             ],
           ],

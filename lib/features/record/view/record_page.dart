@@ -7,6 +7,7 @@ import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/routes/routes.dart';
 import 'package:monee/core/theme/spacing.dart';
+import 'package:monee/core/utils/util.dart';
 import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
@@ -106,7 +107,7 @@ class _RecordViewState extends State<RecordView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('${_selectedDate.year}'),
-                            Text(_getMonthName(_selectedDate.month, l10n)),
+                            Text(getMonthName(_selectedDate.month, l10n)),
                           ],
                         ),
                       ),
@@ -240,23 +241,5 @@ class _RecordViewState extends State<RecordView> {
         );
       },
     );
-  }
-
-  String _getMonthName(int month, AppLocalizations l10n) {
-    final monthKeys = [
-      l10n.jan,
-      l10n.feb,
-      l10n.mar,
-      l10n.apr,
-      l10n.may,
-      l10n.jun,
-      l10n.jul,
-      l10n.aug,
-      l10n.sep,
-      l10n.oct,
-      l10n.nov,
-      l10n.dec,
-    ];
-    return monthKeys[month - 1];
   }
 }

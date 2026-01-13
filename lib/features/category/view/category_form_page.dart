@@ -14,17 +14,22 @@ import 'package:monee/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 class CategoryFormPage extends StatelessWidget {
-  const CategoryFormPage({super.key, this.category});
+  const CategoryFormPage({super.key, this.category, this.type});
 
   final CategoryModel? category;
+  final TrackingType? type;
 
-  static MaterialPage<void> page({Key? key, CategoryModel? category}) =>
-      MaterialPage<void>(
-        child: CategoryFormPage(
-          key: key,
-          category: category,
-        ),
-      );
+  static MaterialPage<void> page({
+    Key? key,
+    CategoryModel? category,
+    TrackingType? type,
+  }) => MaterialPage<void>(
+    child: CategoryFormPage(
+      key: key,
+      category: category,
+      type: type,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +37,17 @@ class CategoryFormPage extends StatelessWidget {
       value: context.read<CategoryBloc>(),
       child: CategoryFormView(
         category: category,
+        type: type,
       ),
     );
   }
 }
 
 class CategoryFormView extends StatefulWidget {
-  const CategoryFormView({super.key, this.category});
+  const CategoryFormView({super.key, this.category, this.type});
 
   final CategoryModel? category;
+  final TrackingType? type;
 
   @override
   State<CategoryFormView> createState() => _CategoryFormViewState();
@@ -55,6 +62,9 @@ class _CategoryFormViewState extends State<CategoryFormView> {
 
   @override
   void initState() {
+    if (widget.type != null) {
+      _selectedType = widget.type!;
+    }
     final category = widget.category;
     if (category != null) {
       setState(() {

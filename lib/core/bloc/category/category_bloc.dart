@@ -14,11 +14,6 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
     on<CategoryDelete>(_deleteCategory);
     on<CategoryReorder>(_reorderCategories);
     on<CategoryInitialize>(_onInitialize);
-
-    // Initialize with default categories if empty
-    if (state.categories.isEmpty) {
-      add(CategoryInitialize());
-    }
   }
 
   void _onInitialize(
@@ -54,7 +49,7 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
       'bonus': 'assets/images/categories/finance/pay.png',
     };
 
-    final categories = [
+    final defaultCategories = [
       ...expenseCategories.entries.map((entry) {
         final name = entry.key;
         final icon = entry.value;
@@ -85,7 +80,15 @@ class CategoryBloc extends HydratedBloc<CategoryEvent, CategoryState> {
       }),
     ];
 
-    emit(CategoryState(categories: categories));
+    // Merge existing categories with defaults, adding only missing ones
+    final existingCategories = List<CategoryModel>.from(state.categories);
+    for (final defaultCat in defaultCategories) {
+      if (!existingCategories.any((c) => c.id == defaultCat.id)) {
+        existingCategories.add(defaultCat);
+      }
+    }
+
+    emit(CategoryState(categories: existingCategories));
   }
 
   void _createCategory(CategoryCreate event, Emitter<CategoryState> emit) {

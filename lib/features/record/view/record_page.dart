@@ -172,6 +172,9 @@ class _RecordViewState extends State<RecordView> {
               ),
               Expanded(
                 child: ListView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom + Spacing.l4,
+                  ),
                   children: grouped.entries.map((entry) {
                     final date = entry.key;
                     final trackings = entry.value;

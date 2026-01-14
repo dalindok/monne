@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
 import 'package:monee/core/extensions/extension.dart';
@@ -64,6 +65,7 @@ class _TrackingFormViewState extends State<TrackingFormView> {
   TextEditingController _amountController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
+  DateTime _selectedEndDate = DateTime.now();
 
   @override
   void initState() {
@@ -80,6 +82,14 @@ class _TrackingFormViewState extends State<TrackingFormView> {
           text: tracking.description,
         );
         _selectedDate = DateTime.parse(tracking.date);
+        if (tracking.type.isSaving && tracking.endDate != null) {
+          _selectedEndDate = DateTime.parse(tracking.endDate ?? tracking.date);
+        }
+      });
+    } else {
+      final nextDay = _selectedDate.add(const Duration(days: 1));
+      setState(() {
+        _selectedEndDate = nextDay;
       });
     }
     super.initState();
@@ -107,6 +117,22 @@ class _TrackingFormViewState extends State<TrackingFormView> {
     }
   }
 
+  Future<void> _selectEndDate() async {
+    final nextDay = _selectedDate.add(const Duration(days: 1));
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedEndDate,
+      firstDate: nextDay,
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != _selectedEndDate) {
+      setState(() {
+        _selectedEndDate = picked;
+      });
+    }
+  }
+
   void _saveTracking() {
     final title = _titleController.text.trim();
     final amount = num.tryParse(_amountController.text) ?? 0;
@@ -127,12 +153,21 @@ class _TrackingFormViewState extends State<TrackingFormView> {
       amount: amount,
       date: _selectedDate.toIso8601String().split('T').first,
       category: widget.selectedCategory,
+      endDate: widget.selectedCategory.type.isSaving
+          ? _selectedEndDate.toIso8601String().split('T').first
+          : null,
     );
 
     if (widget.tracking != null) {
       context.read<TrackingBloc>().add(TrackingUpdate(tracking: tracking));
+      context.pop();
+      return;
     } else {
       context.read<TrackingBloc>().add(TrackingCreate(tracking: tracking));
+    }
+    if (widget.selectedCategory.type.isSaving) {
+      AppRouter.navigationBottomBarShell.goBranch(2);
+      return;
     }
     AppRouter.navigationBottomBarShell.goBranch(1);
   }
@@ -198,12 +233,15 @@ class _TrackingFormViewState extends State<TrackingFormView> {
                         controller: _amountController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: l10n.amount,
+                          labelText: widget.selectedCategory.type.isSaving
+                              ? l10n.goal_saving
+                              : l10n.amount,
                           hintText: l10n.enter_amount,
                         ),
                       ),
                       InkWell(
                         onTap: _selectDate,
+                        borderRadius: BorderRadius.circular(16),
                         child: InputDecorator(
                           decoration: InputDecoration(
                             labelText: l10n.select_date,
@@ -219,6 +257,25 @@ class _TrackingFormViewState extends State<TrackingFormView> {
                           ),
                         ),
                       ),
+                      if (widget.selectedCategory.type.isSaving)
+                        InkWell(
+                          onTap: _selectEndDate,
+                          borderRadius: BorderRadius.circular(16),
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              labelText: l10n.select_end_date,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${_selectedEndDate.day}/${_selectedEndDate.month}/${_selectedEndDate.year}',
+                                ),
+                                const Icon(Icons.calendar_today),
+                              ],
+                            ),
+                          ),
+                        ),
                       TextField(
                         controller: _descriptionController,
                         maxLines: 3,

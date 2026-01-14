@@ -217,5 +217,17 @@
   "dec": "Dec",
   "@dec": {},
   "setting_category": "Setting Category",
-  "@setting_category": {}
+  "@setting_category": {},
+  "your_saving": "Your Saving",
+  "@your_saving": {},
+  "select_end_date": "Select End Date",
+  "@select_end_date": {},
+  "goal_saving": "Goal",
+  "@goal_saving": {},
+  "current_amount": "Current Amount",
+  "@current_amount": {},
+  "end_date": "End Date",
+  "@end_date": {},
+  "add_saving_amount": "Add Saving Amount",
+  "@add_saving_amount": {}
 }

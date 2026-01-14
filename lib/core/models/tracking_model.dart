@@ -10,8 +10,9 @@ class TrackingModel {
     this.title = '',
     this.description = '',
     this.amount = 0,
+    this.savingAmount = 0,
     this.date = '',
-    this.startDate,
+    this.endDate,
     this.category = const CategoryModel(),
   });
 
@@ -22,8 +23,9 @@ class TrackingModel {
       title: map['title'] as String,
       description: map['description'] as String,
       amount: map['amount'] as num,
+      savingAmount: map['savingAmount'] as num,
       date: map['date'] as String,
-      startDate: map['startDate'] != null ? map['startDate'] as String : null,
+      endDate: map['endDate'] != null ? map['endDate'] as String : null,
       category: CategoryModel.fromMap(map['category'] as Map<String, dynamic>),
     );
   }
@@ -37,8 +39,9 @@ class TrackingModel {
   final String title;
   final String description;
   final num amount;
+  final num savingAmount;
   final String date;
-  final String? startDate;
+  final String? endDate;
   final CategoryModel category;
 
   TrackingModel copyWith({
@@ -47,8 +50,9 @@ class TrackingModel {
     String? title,
     String? description,
     num? amount,
+    num? savingAmount,
     String? date,
-    String? startDate,
+    String? endDate,
     CategoryModel? category,
   }) {
     return TrackingModel(
@@ -57,8 +61,9 @@ class TrackingModel {
       title: title ?? this.title,
       description: description ?? this.description,
       amount: amount ?? this.amount,
+      savingAmount: savingAmount ?? this.savingAmount,
       date: date ?? this.date,
-      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       category: category ?? this.category,
     );
   }
@@ -70,8 +75,9 @@ class TrackingModel {
       'title': title,
       'description': description,
       'amount': amount,
+      'savingAmount': savingAmount,
       'date': date,
-      'startDate': startDate,
+      'endDate': endDate,
       'category': category.toMap(),
     };
   }

@@ -217,5 +217,17 @@
   "dec": "ធ្នូ",
   "@dec": {},
   "setting_category": "កំណត់កាតាឡុក",
-  "@setting_category": {}
+  "@setting_category": {},
+  "your_saving": "សន្សំ",
+  "@your_saving": {},
+  "select_end_date": "ជ្រើសរើសកាលបរិច្ឆេទបញ្ចប់",
+  "@select_end_date": {},
+  "goal_saving": "គោលដៅសន្សំ",
+  "@goal_saving": {},
+  "current_amount": "ចំនួនបច្ចុប្បន្ន",
+  "@current_amount": {},
+  "end_date": "កាលបរិច្ឆេទបញ្ចប់",
+  "@end_date": {},
+  "add_saving_amount": "បន្ថែមចំនួនសន្សំ",
+  "@add_saving_amount": {}
 }

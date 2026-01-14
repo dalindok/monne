@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -59,12 +60,12 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
               backgroundColor: context.colors.redPrimary,
             ),
             onPressed: () {
-              context.read<TrackingBloc>().add(
-                TrackingDelete(trackingId: widget.tracking.id),
-              );
               context
                 ..pop()
                 ..pop();
+              context.read<TrackingBloc>().add(
+                TrackingDelete(trackingId: widget.tracking.id),
+              );
             },
             child: Text(context.l10n.remove),
           ),
@@ -76,111 +77,145 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.detail),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(Spacing.normal),
-        child: Column(
-          children: [
-            // categories sector:
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: CustomImage(
-                color: widget.tracking.category.color,
-                icon: widget.tracking.category.icon,
-              ),
-              title: BlocBuilder<LanguageBloc, LanguageState>(
-                builder: (context, state) {
-                  return Text(
-                    widget.tracking.category.categoryTitle(
-                      state.selectLanguage.languageCode,
-                    ),
-                  );
-                },
-              ),
+    return BlocBuilder<TrackingBloc, TrackingState>(
+      builder: (context, state) {
+        final trackingData = state.allTrackings.firstWhereOrNull(
+          (element) => element.id == widget.tracking.id,
+        );
+        if (trackingData == null) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(l10n.detail),
             ),
-            const SizedBox(
-              height: Spacing.m,
+            body: const Center(
+              child: CircularProgressIndicator.adaptive(),
             ),
-            // type tracking
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l10n.type),
-              trailing: Text(
-                switch (widget.tracking.type) {
-                  TrackingType.expense => l10n.expense.toUpperCase(),
-                  TrackingType.income => l10n.income.toUpperCase(),
-                  TrackingType.saving => l10n.saving.toUpperCase(),
-                },
-                style: context.textTheme.titleMedium?.copyWith(
-                  color: widget.tracking.type.isExpense
-                      ? context.colors.redPrimary
-                      : widget.tracking.type.isIncome
-                      ? context.colors.greenPrimary
-                      : context.colors.primary,
-                ),
-              ),
-            ),
-            // amount tracking
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l10n.amount),
-              trailing: Text(
-                '${widget.tracking.type.isExpense ? '-' : '+'} \$${widget.tracking.amount}',
-                style: context.textTheme.titleMedium?.copyWith(
-                  color: widget.tracking.type.isExpense
-                      ? context.colors.redPrimary
-                      : widget.tracking.type.isIncome
-                      ? context.colors.greenPrimary
-                      : context.colors.primary,
-                ),
-              ),
-            ),
-            // date tracking
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l10n.date),
-              trailing: Text(_formatDate(widget.tracking.date)),
-            ),
-          ],
-        ),
-      ),
-      persistentFooterButtons: [
-        Row(
-          spacing: Spacing.normal,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: CustomButton(
-                type: ButtonType.outline,
-                onPress: () async {
-                  await context.pushNamed(
-                    Pages.trackingForm.name,
-                    queryParameters: {
-                      'tracking': widget.tracking.toJson(),
-                      'category': widget.tracking.category.toJson(),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(l10n.detail),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(Spacing.normal),
+            child: Column(
+              children: [
+                // categories sector:
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: CustomImage(
+                    color: trackingData.category.color,
+                    icon: trackingData.category.icon,
+                  ),
+                  title: BlocBuilder<LanguageBloc, LanguageState>(
+                    builder: (context, state) {
+                      return Text(
+                        trackingData.category.categoryTitle(
+                          state.selectLanguage.languageCode,
+                        ),
+                      );
                     },
-                  );
-                },
-                child: Text(l10n.edit),
-              ),
+                  ),
+                ),
+                const SizedBox(
+                  height: Spacing.m,
+                ),
+                // type tracking
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.type),
+                  trailing: Text(
+                    switch (trackingData.type) {
+                      TrackingType.expense => l10n.expense.toUpperCase(),
+                      TrackingType.income => l10n.income.toUpperCase(),
+                      TrackingType.saving => l10n.saving.toUpperCase(),
+                    },
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: trackingData.type.isExpense
+                          ? context.colors.redPrimary
+                          : trackingData.type.isIncome
+                          ? context.colors.greenPrimary
+                          : context.colors.primary,
+                    ),
+                  ),
+                ),
+                // amount tracking
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.amount),
+                  trailing: Text(
+                    '${trackingData.type.isExpense
+                        ? '-'
+                        : trackingData.type.isIncome
+                        ? '+'
+                        : ''} \$${trackingData.amount}',
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: trackingData.type.isExpense
+                          ? context.colors.redPrimary
+                          : trackingData.type.isIncome
+                          ? context.colors.greenPrimary
+                          : context.colors.primary,
+                    ),
+                  ),
+                ),
+                // date tracking
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.date),
+                  trailing: Text(_formatDate(trackingData.date)),
+                ),
+                // end date tracking
+                if (trackingData.type.isSaving)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(l10n.end_date),
+                    trailing: Text(_formatDate(trackingData.endDate!)),
+                  ),
+                if (trackingData.description.isNotEmpty)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(l10n.descprition),
+                    subtitle: Text(trackingData.description),
+                  ),
+              ],
             ),
-            Expanded(
-              child: CustomButton(
-                onPress: _showDeleteDialog,
-                child: Text(l10n.remove),
-              ),
+          ),
+          persistentFooterButtons: [
+            Row(
+              spacing: Spacing.normal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    type: ButtonType.outline,
+                    onPress: () async {
+                      await context.pushNamed(
+                        Pages.trackingForm.name,
+                        queryParameters: {
+                          'tracking': trackingData.toJson(),
+                          'category': trackingData.category.toJson(),
+                        },
+                      );
+                    },
+                    child: Text(l10n.edit),
+                  ),
+                ),
+                Expanded(
+                  child: CustomButton(
+                    onPress: _showDeleteDialog,
+                    child: Text(l10n.remove),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
   String _formatDate(String dateStr) {
     final date = DateTime.parse(dateStr);
-    return DateFormat('yyyy-MM-dd').format(date);
+    return DateFormat('dd MMM yyyy').format(date);
   }
 }

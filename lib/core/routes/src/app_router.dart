@@ -9,10 +9,11 @@ import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/routes/src/not_found_screen.dart';
 import 'package:monee/core/theme/theme.dart';
 import 'package:monee/features/category/category.dart';
-import 'package:monee/features/saving/saving.dart';
+// import 'package:monee/features/dashboard/dashboard.dart';
 import 'package:monee/features/onboarding/onboarding.dart';
 import 'package:monee/features/record/record.dart';
 import 'package:monee/features/report/report.dart';
+import 'package:monee/features/saving/saving.dart';
 import 'package:monee/features/setting/setting.dart';
 import 'package:monee/features/splash/splash.dart';
 import 'package:monee/features/tracking/tracking.dart';
@@ -24,8 +25,6 @@ enum Pages {
   app,
 
   /// home
-  saving,
-  // Tracking
   tracking,
   trackingForm,
   trackingDetail,
@@ -46,6 +45,9 @@ enum Pages {
   budget,
   budgetSetting,
 
+  /// saving
+  saving,
+
   /// setting
   setting,
 }
@@ -59,6 +61,9 @@ class AppRouter {
   static late ScrollController recordScrollController;
 
   static final dashboradShellNavigatorKey = GlobalKey<NavigatorState>(
+    debugLabel: 'dashboard',
+  );
+  static final savingShellNavigatorKey = GlobalKey<NavigatorState>(
     debugLabel: 'dashboard',
   );
   static final recordShellNavigatorKey = GlobalKey<NavigatorState>(
@@ -103,7 +108,7 @@ class AppRouter {
         path: '/app',
         redirect: (context, state) {
           if (state.fullPath == '/app') {
-            return '/app/dashboard';
+            return '/app/report';
           }
           return null;
         },
@@ -163,7 +168,18 @@ class AppRouter {
                   ),
                 ],
               ),
-
+              // StatefulShellBranch(
+              //   navigatorKey: dashboradShellNavigatorKey,
+              //   routes: [
+              //     GoRoute(
+              //       name: Pages.saving.name,
+              //       path: '/dashboard',
+              //       pageBuilder: (context, state) {
+              //         return DashboardPage.page(key: state.pageKey);
+              //       },
+              //     ),
+              //   ],
+              // ),
               StatefulShellBranch(
                 navigatorKey: recordShellNavigatorKey,
                 routes: [
@@ -177,13 +193,13 @@ class AppRouter {
                 ],
               ),
               StatefulShellBranch(
-                navigatorKey: dashboradShellNavigatorKey,
+                navigatorKey: savingShellNavigatorKey,
                 routes: [
                   GoRoute(
                     name: Pages.saving.name,
-                    path: '/dashboard',
+                    path: '/saving',
                     pageBuilder: (context, state) {
-                      return DashboardPage.page(key: state.pageKey);
+                      return SavingPage.page(key: state.pageKey);
                     },
                   ),
                 ],
@@ -395,10 +411,12 @@ class BottomNavigationPage extends StatelessWidget {
         inactiveColor: AppColors.pureWhite.withValues(alpha: 0.5),
 
         icons: const [
-          Icons.bar_chart_rounded, // Report
-          Icons.receipt_long_rounded, // Record
-          Icons.dashboard_rounded, // Dashboard
-          Icons.settings_rounded, // Setting
+          Icons.bar_chart_rounded,
+          // Icons.dashboard_rounded,
+          Icons.receipt_long_rounded,
+          Icons.savings_rounded,
+          // Icons.bar_chart_rounded,
+          Icons.settings_rounded,
         ],
         activeIndex: child.currentIndex,
         onTap: (index) {

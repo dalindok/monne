@@ -9,7 +9,7 @@ import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/routes/src/not_found_screen.dart';
 import 'package:monee/core/theme/theme.dart';
 import 'package:monee/features/category/category.dart';
-import 'package:monee/features/dashboard/dashboard.dart';
+import 'package:monee/features/saving/saving.dart';
 import 'package:monee/features/onboarding/onboarding.dart';
 import 'package:monee/features/record/record.dart';
 import 'package:monee/features/report/report.dart';
@@ -24,7 +24,7 @@ enum Pages {
   app,
 
   /// home
-  dashboard,
+  saving,
   // Tracking
   tracking,
   trackingForm,
@@ -117,30 +117,6 @@ class AppRouter {
             },
             branches: [
               StatefulShellBranch(
-                navigatorKey: dashboradShellNavigatorKey,
-                routes: [
-                  GoRoute(
-                    name: Pages.dashboard.name,
-                    path: '/dashboard',
-                    pageBuilder: (context, state) {
-                      return DashboardPage.page(key: state.pageKey);
-                    },
-                  ),
-                ],
-              ),
-              StatefulShellBranch(
-                navigatorKey: recordShellNavigatorKey,
-                routes: [
-                  GoRoute(
-                    name: Pages.record.name,
-                    path: 'record',
-                    pageBuilder: (context, state) {
-                      return RecordPage.page(key: state.pageKey);
-                    },
-                  ),
-                ],
-              ),
-              StatefulShellBranch(
                 navigatorKey: reportShellNavigatorKey,
                 routes: [
                   GoRoute(
@@ -187,6 +163,78 @@ class AppRouter {
                   ),
                 ],
               ),
+
+              StatefulShellBranch(
+                navigatorKey: recordShellNavigatorKey,
+                routes: [
+                  GoRoute(
+                    name: Pages.record.name,
+                    path: 'record',
+                    pageBuilder: (context, state) {
+                      return RecordPage.page(key: state.pageKey);
+                    },
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                navigatorKey: dashboradShellNavigatorKey,
+                routes: [
+                  GoRoute(
+                    name: Pages.saving.name,
+                    path: '/dashboard',
+                    pageBuilder: (context, state) {
+                      return DashboardPage.page(key: state.pageKey);
+                    },
+                  ),
+                ],
+              ),
+              // StatefulShellBranch(
+              //   navigatorKey: reportShellNavigatorKey,
+              //   routes: [
+              //     GoRoute(
+              //       path: 'report',
+              //       parentNavigatorKey: reportShellNavigatorKey,
+              //       redirect: (context, state) {
+              //         if (state.fullPath == '/app/report') {
+              //           return '/app/report/report-analytis';
+              //         }
+              //         return null;
+              //       },
+              //       routes: [
+              //         GoRoute(
+              //           name: Pages.report.name,
+              //           parentNavigatorKey: reportShellNavigatorKey,
+              //           path: 'report-analytis',
+              //           pageBuilder: (context, state) {
+              //             return ReportPage.page(
+              //               key: state.pageKey,
+              //             );
+              //           },
+              //           routes: [
+              //             GoRoute(
+              //               parentNavigatorKey: rootNavigatorKey,
+              //               name: Pages.budget.name,
+              //               path: 'budget',
+              //               pageBuilder: (context, state) {
+              //                 return BudgetPage.page(key: state.pageKey);
+              //               },
+              //             ),
+              //             GoRoute(
+              //               parentNavigatorKey: rootNavigatorKey,
+              //               name: Pages.budgetSetting.name,
+              //               path: 'budget-setting',
+              //               pageBuilder: (context, state) {
+              //                 return BudgeteSettingPage.page(
+              //                   key: state.pageKey,
+              //                 );
+              //               },
+              //             ),
+              //           ],
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
               StatefulShellBranch(
                 navigatorKey: settingShellNavigatorKey,
                 routes: [
@@ -347,10 +395,10 @@ class BottomNavigationPage extends StatelessWidget {
         inactiveColor: AppColors.pureWhite.withValues(alpha: 0.5),
 
         icons: const [
-          Icons.dashboard_rounded,
-          Icons.receipt_long_rounded,
-          Icons.bar_chart_rounded,
-          Icons.settings_rounded,
+          Icons.bar_chart_rounded, // Report
+          Icons.receipt_long_rounded, // Record
+          Icons.dashboard_rounded, // Dashboard
+          Icons.settings_rounded, // Setting
         ],
         activeIndex: child.currentIndex,
         onTap: (index) {

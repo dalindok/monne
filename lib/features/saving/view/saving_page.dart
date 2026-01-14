@@ -103,47 +103,47 @@ class _DashboardViewState extends State<DashboardView>
         physics: const BouncingScrollPhysics(),
         slivers: [
           // Animated AppBar with greeting
-          SliverAppBar(
-            expandedHeight: 120,
-            pinned: true,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            flexibleSpace: Stack(
-              children: [
-                AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, child) {
-                    return FlexibleSpaceBar(
-                      title: Text(
-                        _getGreeting(context),
-                        style: context.textTheme.titleLarge?.copyWith(
-                          color: AppColors.pureWhite,
-                        ),
-                      ),
-                      centerTitle: false,
-                      titlePadding: const EdgeInsets.only(
-                        left: Spacing.normal,
-                        bottom: Spacing.normal,
-                      ),
-                      background: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [color1, color2, color1],
-                            stops: [0.0, _animation.value, 1.0],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                Align(
-                  alignment: AlignmentGeometry.bottomRight,
-                  child: Image.asset(GifPaths.welcome),
-                ),
-              ],
-            ),
-          ),
+          // SliverAppBar(
+          //   expandedHeight: 120,
+          //   pinned: true,
+          //   backgroundColor: Theme.of(context).colorScheme.primary,
+          //   flexibleSpace: Stack(
+          // children: [
+          //   AnimatedBuilder(
+          //     animation: _animation,
+          //     builder: (context, child) {
+          //       return FlexibleSpaceBar(
+          //         title: Text(
+          //           _getGreeting(context),
+          //           style: context.textTheme.titleLarge?.copyWith(
+          //             color: AppColors.pureWhite,
+          //           ),
+          //         ),
+          //         centerTitle: false,
+          //         titlePadding: const EdgeInsets.only(
+          //           left: Spacing.normal,
+          //           bottom: Spacing.normal,
+          //         ),
+          //         background: Container(
+          //           decoration: BoxDecoration(
+          //             gradient: LinearGradient(
+          //               begin: Alignment.topLeft,
+          //               end: Alignment.bottomRight,
+          //               colors: [color1, color2, color1],
+          //               stops: [0.0, _animation.value, 1.0],
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          //   Align(
+          //     alignment: AlignmentGeometry.bottomRight,
+          //     child: Image.asset(GifPaths.welcome),
+          //   ),
+          // ],
+          // ),
+          // ),
 
           // Dashboard Content
           SliverPadding(
@@ -153,52 +153,52 @@ class _DashboardViewState extends State<DashboardView>
                 const SizedBox(height: Spacing.s),
 
                 // Records Section
-                _AnimatedDashboardCard(
-                  delay: 100,
-                  child: _DashboardSection(
-                    icon: Icons.receipt_long,
-                    title: l10n.record,
-                    description: l10n.view_all_record,
-                    color: Colors.blue,
-                    onTap: () {
-                      AppRouter.navigationBottomBarShell.goBranch(1);
-                    },
-                  ),
-                ),
+                // _AnimatedDashboardCard(
+                //   delay: 100,
+                //   child: _DashboardSection(
+                //     icon: Icons.receipt_long,
+                //     title: l10n.record,
+                //     description: l10n.view_all_record,
+                //     color: Colors.blue,
+                //     onTap: () {
+                //       AppRouter.navigationBottomBarShell.goBranch(1);
+                //     },
+                //   ),
+                // ),
 
-                const SizedBox(height: Spacing.normal),
+                // const SizedBox(height: Spacing.normal),
 
-                // Add Transaction Section
-                _AnimatedDashboardCard(
-                  delay: 200,
-                  child: _DashboardSection(
-                    icon: Icons.add_circle,
-                    title: l10n.add_tracking,
-                    description: l10n.record_new_tracking,
-                    color: Colors.green,
-                    onTap: () async {
-                      await context.pushNamed(Pages.tracking.name);
-                    },
-                  ),
-                ),
+                // // Add Transaction Section
+                // _AnimatedDashboardCard(
+                //   delay: 200,
+                //   child: _DashboardSection(
+                //     icon: Icons.add_circle,
+                //     title: l10n.add_tracking,
+                //     description: l10n.record_new_tracking,
+                //     color: Colors.green,
+                //     onTap: () async {
+                //       await context.pushNamed(Pages.tracking.name);
+                //     },
+                //   ),
+                // ),
 
-                const SizedBox(height: Spacing.normal),
+                // const SizedBox(height: Spacing.normal),
 
-                // Reports Section
-                _AnimatedDashboardCard(
-                  delay: 300,
-                  child: _DashboardSection(
-                    icon: Icons.bar_chart,
-                    title: l10n.report,
-                    description: l10n.view_insights_analytics,
-                    color: Colors.purple,
-                    onTap: () {
-                      AppRouter.navigationBottomBarShell.goBranch(2);
-                    },
-                  ),
-                ),
+                // // Reports Section
+                // _AnimatedDashboardCard(
+                //   delay: 300,
+                //   child: _DashboardSection(
+                //     icon: Icons.bar_chart,
+                //     title: l10n.report,
+                //     description: l10n.view_insights_analytics,
+                //     color: Colors.purple,
+                //     onTap: () {
+                //       AppRouter.navigationBottomBarShell.goBranch(2);
+                //     },
+                //   ),
+                // ),
 
-                const SizedBox(height: Spacing.l1),
+                // const SizedBox(height: Spacing.l1),
 
                 // Quick Stats Section
                 _AnimatedDashboardCard(
@@ -264,6 +264,7 @@ class _DashboardViewState extends State<DashboardView>
                     ),
                   ),
                 ),
+                _AnimatedDashboardCard(delay: 400, child: Container()),
               ]),
             ),
           ),

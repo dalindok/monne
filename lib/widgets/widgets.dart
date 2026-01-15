@@ -4,4 +4,5 @@ export './src/custom_button.dart';
 export './src/custom_image.dart';
 export './src/month_year_picker_dialog.dart';
 export './src/saving_item.dart';
+export './src/state_item.dart';
 export './src/tracking_item.dart';

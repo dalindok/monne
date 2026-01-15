@@ -11,6 +11,7 @@ import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/core/theme/theme.dart';
 
 import 'package:monee/l10n/l10n.dart';
+import 'package:monee/widgets/widgets.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -235,21 +236,21 @@ class _DashboardViewState extends State<DashboardView>
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                _StatItem(
+                                StatItem(
                                   label: l10n.income,
                                   value: NumberFormat.currency(
                                     symbol: r'$',
                                   ).format(totalIncome),
                                   color: Colors.green,
                                 ),
-                                _StatItem(
+                                StatItem(
                                   label: l10n.expenses,
                                   value: NumberFormat.currency(
                                     symbol: r'$',
                                   ).format(totalExpenses),
                                   color: Colors.red,
                                 ),
-                                _StatItem(
+                                StatItem(
                                   label: l10n.balance,
                                   value: NumberFormat.currency(
                                     symbol: r'$',
@@ -426,42 +427,6 @@ class _DashboardSection extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _StatItem extends StatelessWidget {
-  const _StatItem({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          label,
-          style: context.textTheme.bodySmall?.copyWith(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.6),
-          ),
-        ),
-        const SizedBox(height: Spacing.s),
-        Text(
-          value,
-          style: context.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-      ],
     );
   }
 }

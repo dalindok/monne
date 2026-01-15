@@ -271,7 +271,14 @@ class AppRouter {
             name: Pages.tracking.name,
             path: 'tracking',
             pageBuilder: (context, state) {
-              return TrackingPage.page(key: state.pageKey);
+              var type = TrackingType.expense;
+              final jsonType = state.uri.queryParameters['type'];
+              if (jsonType != null && jsonType.isNotEmpty) {
+                type = TrackingType.fromMap(jsonType);
+              } else {
+                type = TrackingType.expense;
+              }
+              return TrackingPage.page(key: state.pageKey, type: type);
             },
           ),
           GoRoute(

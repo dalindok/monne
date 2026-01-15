@@ -5,8 +5,10 @@ sealed class TrackingEvent {}
 class TrackingCreate extends TrackingEvent {
   TrackingCreate({
     required this.tracking,
+    this.context,
   });
   final TrackingModel tracking;
+  final BuildContext? context;
 }
 
 class TrackingUpdate extends TrackingEvent {

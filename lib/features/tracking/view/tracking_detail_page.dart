@@ -87,8 +87,8 @@ class _TrackingDetailViewState extends State<TrackingDetailView> {
             appBar: AppBar(
               title: Text(l10n.detail),
             ),
-            body: const Center(
-              child: CircularProgressIndicator.adaptive(),
+            body: Center(
+              child: Text(l10n.no_tracking_found),
             ),
           );
         }

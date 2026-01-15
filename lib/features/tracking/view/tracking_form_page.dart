@@ -9,6 +9,7 @@ import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/routes/routes.dart';
 import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/l10n/l10n.dart';
+import 'package:monee/services/notification_services.dart';
 import 'package:monee/widgets/widgets.dart';
 import 'package:uuid/uuid.dart';
 
@@ -133,7 +134,7 @@ class _TrackingFormViewState extends State<TrackingFormView> {
     }
   }
 
-  void _saveTracking() {
+  Future<void> _saveTracking() async {
     final title = _titleController.text.trim();
     final amount = num.tryParse(_amountController.text) ?? 0;
     final description = _descriptionController.text.trim();
@@ -163,7 +164,20 @@ class _TrackingFormViewState extends State<TrackingFormView> {
       context.pop();
       return;
     } else {
-      context.read<TrackingBloc>().add(TrackingCreate(tracking: tracking));
+      context.read<TrackingBloc>().add(
+        TrackingCreate(tracking: tracking, context: context),
+      );
+      // Show success notification
+      await NotificationService().showNotification(
+        id:
+            tracking.id.hashCode.abs() %
+            1000000, // Use hash to create unique valid ID
+        title: context.l10n.created,
+        body: context.l10n.your_tracking_create_successfully(
+          tracking.title,
+        ),
+        payload: tracking.toJson(),
+      );
     }
     if (widget.selectedCategory.type.isSaving) {
       AppRouter.navigationBottomBarShell.goBranch(2);

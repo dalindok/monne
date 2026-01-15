@@ -229,5 +229,35 @@
   "end_date": "End Date",
   "@end_date": {},
   "add_saving_amount": "Add Saving Amount",
-  "@add_saving_amount": {}
+  "@add_saving_amount": {},
+  "empty": "Empty",
+  "@empty": {},
+  "no_saving_yet": "No saving yet. Create your first saving goal now!",
+  "@no_saving_yet": {},
+  "create_saving_goal": "Create Saving Goal",
+  "@create_saving_goal": {},
+  "no_record_found": "No record found",
+  "@no_record_found": {},
+  "add_record": "Add Record",
+  "@add_record": {},
+  "created": "Created",
+  "@created": {},
+  "your_tracking_create_successfully": "Your {tracking} has been created successfully.",
+  "@your_tracking_create_successfully": {
+    "placeholders": {
+      "tracking": {
+        "description": "tracking name"
+      }
+    }
+  },
+  "daily_saving_reminder": "Daily Saving Reminder",
+  "@daily_saving_reminder": {},
+  "rememeber_for_saving": "Remember to save for {saving}",
+  "@rememeber_for_saving": {
+    "placeholders": {
+      "saving": {
+        "description": "saving name"
+      }
+    }
+  }
 }

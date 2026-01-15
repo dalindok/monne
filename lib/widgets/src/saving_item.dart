@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:monee/core/bloc/lang/language_bloc.dart';
 import 'package:monee/core/extensions/extension.dart';
-import 'package:monee/core/models/category_model.dart';
+import 'package:monee/core/models/tracking_model.dart';
 import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
 class SavingItem extends StatelessWidget {
   const SavingItem({
-    required this.category,
+    required this.saving,
     required this.goalSaving,
     required this.remaining,
     required this.remainingPercentage,
@@ -23,7 +21,7 @@ class SavingItem extends StatelessWidget {
   final num remaining;
   final num goalSaving;
   final num currentSaving;
-  final CategoryModel category;
+  final TrackingModel saving;
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +40,15 @@ class SavingItem extends StatelessWidget {
                   width: 40,
                   height: 40,
                   child: CustomImage(
-                    color: category.color,
-                    icon: category.icon,
+                    color: saving.category.color,
+                    icon: saving.category.icon,
                   ),
                 ),
-                BlocBuilder<LanguageBloc, LanguageState>(
-                  builder: (context, state) {
-                    return Text(
-                      category.categoryTitle(state.selectLanguage.languageCode),
-                    );
-                  },
+                Text(
+                  saving.title.toUpperCase(),
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -96,16 +93,16 @@ class SavingItem extends StatelessWidget {
                         children: [
                           Text(
                             context.l10n.goal_saving,
-                            style: context.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             goalSaving > 0
                                 ? '\$${goalSaving.toStringAsFixed(2)}'
                                 : '--',
-                            style: context.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],

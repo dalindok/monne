@@ -15,26 +15,63 @@ import 'package:monee/l10n/l10n.dart';
 import 'package:monee/widgets/widgets.dart';
 
 class TrackingPage extends StatelessWidget {
-  const TrackingPage({super.key});
+  const TrackingPage({required this.type, super.key});
 
-  static MaterialPage<void> page({Key? key}) => MaterialPage<void>(
-    child: TrackingPage(key: key),
+  final TrackingType type;
+
+  static MaterialPage<void> page({
+    required TrackingType type,
+    Key? key,
+  }) => MaterialPage<void>(
+    child: TrackingPage(
+      key: key,
+      type: type,
+    ),
   );
 
   @override
   Widget build(BuildContext context) {
-    return const TrackingView();
+    return TrackingView(type: type);
   }
 }
 
 class TrackingView extends StatefulWidget {
-  const TrackingView({super.key});
+  const TrackingView({required this.type, super.key});
+
+  final TrackingType type;
 
   @override
   State<TrackingView> createState() => _TrackingViewState();
 }
 
-class _TrackingViewState extends State<TrackingView> {
+class _TrackingViewState extends State<TrackingView>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: TrackingType.values.indexOf(widget.type),
+    );
+  }
+
+  @override
+  void didUpdateWidget(TrackingView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.type != widget.type) {
+      _tabController.animateTo(TrackingType.values.indexOf(widget.type));
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -44,6 +81,7 @@ class _TrackingViewState extends State<TrackingView> {
         appBar: AppBar(
           title: Text(l10n.add_tracking),
           bottom: TabBar(
+            controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(text: l10n.expense), // Expense
@@ -55,6 +93,7 @@ class _TrackingViewState extends State<TrackingView> {
         body: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
             return TabBarView(
+              controller: _tabController,
               children: [
                 CategoriesGridView(
                   type: TrackingType.expense,

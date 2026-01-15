@@ -229,5 +229,35 @@
   "end_date": "កាលបរិច្ឆេទបញ្ចប់",
   "@end_date": {},
   "add_saving_amount": "បន្ថែមចំនួនសន្សំ",
-  "@add_saving_amount": {}
+  "@add_saving_amount": {},
+  "empty": "ទទេរ",
+  "@empty": {},
+  "no_saving_yet": "មិនមានការសន្សំទេ, បង្កើតគោលដៅសន្សំដំបូងរបស់អ្នកឥឡូវនេះ!",
+  "@no_saving_yet": {},
+  "create_saving_goal": "បង្កើតគោលដៅសន្សំ",
+  "@create_saving_goal": {},
+  "no_record_found": "មិនមានកំណត់ត្រា",
+  "@no_record_found": {},
+  "add_record": "បន្ថែមកំណត់ត្រា",
+  "@add_record": {},
+  "created": "បានបង្កើត",
+  "@created": {},
+  "your_tracking_create_successfully": "{tracking} បានបង្កើតដោយជោគជ័យ",
+  "@your_tracking_create_successfully": {
+    "placeholders": {
+      "tracking": {
+        "description": "tracking name"
+      }
+    }
+  },
+  "daily_saving_reminder": "ការជូនដំណឹងសន្សំប្រចាំថ្ងៃ",
+  "@daily_saving_reminder": {},
+  "rememeber_for_saving": "កុំភ្លេចមើលការសន្សំចំពោះ {saving}",
+  "@rememeber_for_saving": {
+    "placeholders": {
+      "saving": {
+        "description": "saving name"
+      }
+    }
+  }
 }

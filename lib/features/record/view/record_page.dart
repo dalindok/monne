@@ -170,75 +170,116 @@ class _RecordViewState extends State<RecordView> {
                   ],
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom + Spacing.l4,
-                  ),
-                  children: grouped.entries.map((entry) {
-                    final date = entry.key;
-                    final trackings = entry.value;
-                    const initValue = 0.0;
-                    final dayExpense = trackings
-                        .where((t) => t.type == TrackingType.expense)
-                        .fold(initValue, (sum, t) => sum + t.amount);
-                    final dayIncome = trackings
-                        .where((t) => t.type == TrackingType.income)
-                        .fold(initValue, (sum, t) => sum + t.amount);
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              if (grouped.entries.isEmpty)
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: Spacing.s,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Spacing.normal,
-                            vertical: Spacing.s,
-                          ),
-                          color: context.colors.lightShadeGrey30,
+                        Icon(
+                          Icons.insert_drive_file_outlined,
+                          size: 100,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.5),
+                        ),
+                        Text(
+                          l10n.no_record_found,
+                          textAlign: TextAlign.center,
+                        ),
+                        CustomButton(
                           child: Row(
+                            spacing: Spacing.s,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(date),
-                              const Spacer(),
-                              Text.rich(
-                                TextSpan(
-                                  text: '${l10n.expense}: ',
-                                  children: [
-                                    TextSpan(
-                                      text:
-                                          '\$${dayExpense.toStringAsFixed(2)}',
-                                      style: context.textTheme.bodyMedium
-                                          ?.copyWith(
-                                            color: context.colors.redPrimary,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: Spacing.normal),
-                              Text.rich(
-                                TextSpan(
-                                  text: '${l10n.income}: ',
-                                  children: [
-                                    TextSpan(
-                                      text: '\$${dayIncome.toStringAsFixed(2)}',
-                                      style: context.textTheme.bodyMedium
-                                          ?.copyWith(
-                                            color: context.colors.greenPrimary,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              const Icon(Icons.add),
+                              Text(l10n.add_record),
                             ],
                           ),
-                        ),
-                        ...trackings.map(
-                          (tracking) => TrackingItem(tracking: tracking),
+                          onPress: () async {
+                            await context.pushNamed(
+                              Pages.tracking.name,
+                            );
+                          },
                         ),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                  ),
+                )
+              else
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.only(
+                      bottom:
+                          MediaQuery.of(context).padding.bottom + Spacing.l4,
+                    ),
+                    children: grouped.entries.map((entry) {
+                      final date = entry.key;
+                      final trackings = entry.value;
+                      const initValue = 0.0;
+                      final dayExpense = trackings
+                          .where((t) => t.type == TrackingType.expense)
+                          .fold(initValue, (sum, t) => sum + t.amount);
+                      final dayIncome = trackings
+                          .where((t) => t.type == TrackingType.income)
+                          .fold(initValue, (sum, t) => sum + t.amount);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Spacing.normal,
+                              vertical: Spacing.s,
+                            ),
+                            color: context.colors.lightShadeGrey30,
+                            child: Row(
+                              children: [
+                                Text(date),
+                                const Spacer(),
+                                Text.rich(
+                                  TextSpan(
+                                    text: '${l10n.expense}: ',
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            '\$${dayExpense.toStringAsFixed(2)}',
+                                        style: context.textTheme.bodyMedium
+                                            ?.copyWith(
+                                              color: context.colors.redPrimary,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: Spacing.normal),
+                                Text.rich(
+                                  TextSpan(
+                                    text: '${l10n.income}: ',
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            '\$${dayIncome.toStringAsFixed(2)}',
+                                        style: context.textTheme.bodyMedium
+                                            ?.copyWith(
+                                              color:
+                                                  context.colors.greenPrimary,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ...trackings.map(
+                            (tracking) => TrackingItem(tracking: tracking),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
                 ),
-              ),
             ],
           ),
         );

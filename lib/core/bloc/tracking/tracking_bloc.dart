@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/models/tracking_model.dart';
+import 'package:monee/l10n/l10n.dart';
+import 'package:monee/services/notification_services.dart';
 
 part 'tracking_event.dart';
 part 'tracking_state.dart';
@@ -14,7 +17,10 @@ class TrackingBloc extends HydratedBloc<TrackingEvent, TrackingState> {
     on<TrackingSearch>(_searchTracking);
   }
 
-  void _createTracking(TrackingCreate event, Emitter<TrackingState> emit) {
+  Future<void> _createTracking(
+    TrackingCreate event,
+    Emitter<TrackingState> emit,
+  ) async {
     final tracking = event.tracking;
     switch (tracking.type) {
       case TrackingType.expense:
@@ -23,6 +29,31 @@ class TrackingBloc extends HydratedBloc<TrackingEvent, TrackingState> {
         emit(state.copyWith(incomes: [...state.incomes, tracking]));
       case TrackingType.saving:
         emit(state.copyWith(savings: [...state.savings, tracking]));
+        // Schedule daily notifications until end date
+        if (tracking.endDate != null) {
+          final startDate = DateTime.parse(tracking.date);
+          final endDate = DateTime.parse(tracking.endDate!);
+          var currentDate = startDate;
+          var idOffset = 0;
+          while (currentDate.isBefore(endDate) ||
+              currentDate.isAtSameMomentAs(endDate)) {
+            await NotificationService().scheduleNotification(
+              id:
+                  (tracking.id.hashCode.abs() + idOffset) %
+                  1000000, // Keep ID in valid range
+              title:
+                  event.context?.l10n.daily_saving_reminder ??
+                  'Daily Saving Reminder',
+              body:
+                  event.context?.l10n.rememeber_for_saving(tracking.title) ??
+                  'Remember to save for ${tracking.title}',
+              scheduledDate: currentDate,
+              payload: tracking.toJson(),
+            );
+            currentDate = currentDate.add(const Duration(days: 1));
+            idOffset++;
+          }
+        }
     }
   }
 

@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:monee/core/bloc/budget/budget_bloc.dart';
 import 'package:monee/core/bloc/tracking/tracking_bloc.dart';
+import 'package:monee/core/common/common.dart';
 import 'package:monee/core/enums/enum.dart';
 import 'package:monee/core/extensions/extension.dart';
 import 'package:monee/core/routes/routes.dart';
 import 'package:monee/core/theme/spacing.dart';
 import 'package:monee/l10n/l10n.dart';
+import 'package:monee/widgets/widgets.dart';
 
 class ReportPage extends StatelessWidget {
   const ReportPage({super.key});
@@ -244,6 +246,69 @@ class ReportView extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: Spacing.normal),
+                    Container(
+                      padding: const EdgeInsets.all(Spacing.l),
+                      decoration: BoxDecoration(
+                        // color: context.colors.pureWhite,
+                        borderRadius: kBorderRadius,
+                        border: Border.all(color: Colors.pinkAccent.shade200),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.quick_stats,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(height: Spacing.normal),
+                          BlocBuilder<TrackingBloc, TrackingState>(
+                            builder: (context, state) {
+                              final totalIncome = state.incomes.fold<double>(
+                                0,
+                                (sum, item) => sum + item.amount,
+                              );
+                              final totalExpenses = state.expenses.fold<double>(
+                                0,
+                                (sum, item) => sum + item.amount,
+                              );
+                              final balance = totalIncome - totalExpenses;
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  StatItem(
+                                    label: l10n.income,
+                                    value: NumberFormat.currency(
+                                      symbol: r'$',
+                                    ).format(totalIncome),
+                                    color: Colors.green,
+                                  ),
+                                  StatItem(
+                                    label: l10n.expenses,
+                                    value: NumberFormat.currency(
+                                      symbol: r'$',
+                                    ).format(totalExpenses),
+                                    color: Colors.red,
+                                  ),
+                                  StatItem(
+                                    label: l10n.balance,
+                                    value: NumberFormat.currency(
+                                      symbol: r'$',
+                                    ).format(balance),
+                                    color: Colors.blue,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],

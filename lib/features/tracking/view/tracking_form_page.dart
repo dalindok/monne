@@ -168,7 +168,7 @@ class _TrackingFormViewState extends State<TrackingFormView> {
         TrackingCreate(tracking: tracking, context: context),
       );
       // Show success notification
-      await NotificationService().showNotification(
+      final notificationShown = await NotificationService().showNotification(
         id:
             tracking.id.hashCode.abs() %
             1000000, // Use hash to create unique valid ID
@@ -178,6 +178,16 @@ class _TrackingFormViewState extends State<TrackingFormView> {
         ),
         payload: tracking.toJson(),
       );
+      if (!notificationShown) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to show notification'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
     if (widget.selectedCategory.type.isSaving) {
       AppRouter.navigationBottomBarShell.goBranch(2);

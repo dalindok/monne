@@ -185,7 +185,7 @@ class CategoriesGridView extends StatelessWidget {
                 color: category.color,
                 icon: category.icon,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Spacing.xs),
               BlocBuilder<LanguageBloc, LanguageState>(
                 builder: (context, state) {
                   return Text(

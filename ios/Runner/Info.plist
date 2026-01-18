@@ -50,6 +50,10 @@
 		<false/>
 		<key>NSUserNotificationsUsageDescription</key>
 		<string>This app needs access to notifications</string>
+		<key>NSUserNotificationAlertOptions</key>
+		<integer>1</integer>
+		<key>UNUserNotificationCenterDelegate</key>
+		<true/>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
